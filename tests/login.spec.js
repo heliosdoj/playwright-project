@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-test('This is a login test', async ({ page }) => {
+test.only('This is a login test', async ({ page }) => {
     await page.goto('https://the-internet.herokuapp.com/login');
-    await page.pause()
     await page.locator('#username').click();
     await page.locator('#username').fill('tomsmith');
     await page.locator('#password').click();
@@ -13,5 +12,4 @@ test('This is a login test', async ({ page }) => {
     await page.locator('a.button.secondary.radius:has-text("Logout")').click();
     await page.locator('#username').click();
     await page.locator('#username').fill('11');
-    await page.pause()
 });

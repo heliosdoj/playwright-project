@@ -1,6 +1,6 @@
  import {test, expect} from '@playwright/test';
 
- test.describe.only("Learn Assertions", () =>{
+ test.describe("Learn Assertions", () =>{
     test('Verify web page behavior', async ({page}) => {
         await page.goto('https://the-internet.herokuapp.com/')
         // 1. Does this page exist?
