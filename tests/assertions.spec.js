@@ -31,10 +31,14 @@
         await expect(page.getByRole('checkbox').nth(0)).toBeChecked()
         await expect(page.getByRole('checkbox').nth(1)).not.toBeChecked()
     })
-    test.only ('Continue with Assertions Part 3', async ({page}) => {
+    test.only('Continue with Assertions Part 3', async ({page}) => {
         await page.goto('https://the-internet.herokuapp.com/login')
         //8. Have Value
         await page.locator('#username').fill('tomsmith')
         await expect(page.locator('#username')).toHaveValue('tomsmith')
+        await page.pause()
+        //9. Element is enabled
+        await expect(page.locator('button[type="submit"]')).toBeEnabled();
+        await page.pause()
     })    
  })

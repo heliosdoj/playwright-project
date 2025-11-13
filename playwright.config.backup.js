@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
-import os from 'os';
 
 /**
  * Read environment variables from file.
@@ -27,7 +26,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   
   /* DYNAMIC SCALING - automatically uses optimal workers based on CPU cores */
-  workers: process.env.CI ? 2 : Math.min(Math.floor(os.cpus().length * 0.5), 15),
+  workers: process.env.CI ? 2 : undefined, // undefined = auto-scale to 50% of CPU cores (recommended by Playwright)
   
   /* Aggressive timeout settings for faster execution */
   timeout: 30 * 1000, // 30 seconds per test (aggressive)
@@ -100,6 +99,7 @@ export default defineConfig({
         '--disable-sync',
         '--force-color-profile=srgb',
         '--metrics-recording-only',
+        '--no-first-run',
         '--password-store=basic',
         '--use-mock-keychain',
         '--disable-notifications',
