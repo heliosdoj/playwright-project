@@ -1,0 +1,20 @@
+{
+  "name": "playwright",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "install:browsers": "pnpm exec playwright install",
+    "test": "pnpm exec playwright test",
+    "test:headed": "pnpm exec playwright test --headed",
+    "test:debug": "pnpm exec playwright test --debug",
+    "report": "pnpm exec playwright show-report",
+    "allure:gen": "pnpm exec allure generate allure-results --clean -o allure-report",
+    "allure:open": "pnpm exec allure open allure-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.3.0",
+    "allure-commandline": "^2.34.1",
+    "allure-playwright": "^3.3.3"
+  }
+}
