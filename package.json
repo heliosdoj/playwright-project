@@ -10,6 +10,7 @@
     "test:ui": "pnpm exec playwright test --ui",
     "test:headed": "pnpm exec playwright test --headed",
     "test:debug": "pnpm exec playwright test --debug",
+    "test:steps": "pnpm exec playwright test --headed --debug",
     "report": "pnpm exec playwright show-report",
     "allure:gen": "pnpm exec allure generate allure-results --clean -o allure-report",
     "allure:open": "pnpm exec allure open allure-report"
