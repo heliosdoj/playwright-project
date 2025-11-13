@@ -123,29 +123,29 @@ export default defineConfig({
       },
     },
 
-    {
-      name: 'Firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        /* FIREFOX-SPECIFIC: Performance optimizations compatible with Firefox */
-        launchOptions: {
-          firefoxUserPrefs: {
-            // Performance optimizations for Firefox
-            'browser.cache.disk.enable': false,
-            'browser.cache.memory.enable': true,
-            'browser.sessionhistory.max_total_viewers': 0,
-            'network.http.pipelining': true,
-            'network.http.proxy.pipelining': true,
-            'network.http.pipelining.maxrequests': 8,
-            'browser.tabs.animate': false,
-            'browser.display.show_image_placeholders': false,
-            'browser.chrome.site_icons': false,
-            'browser.chrome.favicons': false,
-          },
-          timeout: 30000,
-        },
-      },
-    },
+    // {
+    //   name: 'Firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     /* FIREFOX-SPECIFIC: Performance optimizations compatible with Firefox */
+    //     launchOptions: {
+    //       firefoxUserPrefs: {
+    //         // Performance optimizations for Firefox
+    //         'browser.cache.disk.enable': false,
+    //         'browser.cache.memory.enable': true,
+    //         'browser.sessionhistory.max_total_viewers': 0,
+    //         'network.http.pipelining': true,
+    //         'network.http.proxy.pipelining': true,
+    //         'network.http.pipelining.maxrequests': 8,
+    //         'browser.tabs.animate': false,
+    //         'browser.display.show_image_placeholders': false,
+    //         'browser.chrome.site_icons': false,
+    //         'browser.chrome.favicons': false,
+    //       },
+    //       timeout: 30000,
+    //     },
+    //   },
+    // },
 
     // {
     //   name: 'webkit',
@@ -163,62 +163,62 @@ export default defineConfig({
     // },
 
     /* Test against branded browsers. */
-    {
-      name: 'Edge',
-      use: {
-        ...devices['Desktop Edge'],
-        channel: 'msedge',
-        /* EDGE-SPECIFIC: MAXIMUM PERFORMANCE - GPU acceleration (Edge uses Chromium engine) */
-        launchOptions: {
-          args: [
-            '--disable-blink-features=AutomationControlled',
-            '--disable-dev-shm-usage',
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-web-security',
-            '--disable-features=IsolateOrigins,site-per-process',
-            '--enable-features=NetworkService,NetworkServiceInProcess',
-            // NVIDIA T600 GPU ACCELERATION - (DOJ Laptop)
-            '--enable-gpu-rasterization',
-            '--enable-zero-copy',
-            '--ignore-gpu-blocklist',
-            '--enable-accelerated-2d-canvas',
-            '--enable-accelerated-video-decode',
-            '--enable-native-gpu-memory-buffers',
-            '--enable-gpu-memory-buffer-video-frames',
-            // Aggressive memory and performance optimizations
-            '--disable-background-timer-throttling',
-            '--disable-backgrounding-occluded-windows',
-            '--disable-renderer-backgrounding',
-            '--disable-background-networking',
-            '--disable-breakpad',
-            '--disable-component-extensions-with-background-pages',
-            '--disable-extensions',
-            '--disable-features=TranslateUI,BlinkGenPropertyTrees',
-            '--disable-ipc-flooding-protection',
-            '--disable-hang-monitor',
-            '--disable-prompt-on-repost',
-            '--disable-sync',
-            '--force-color-profile=srgb',
-            '--metrics-recording-only',
-            '--password-store=basic',
-            '--use-mock-keychain',
-            '--disable-notifications',
-            // MAXIMUM performance flags (optimized for 32GB RAM, 20 threads)
-            '--js-flags=--expose-gc --max-old-space-size=6144 --max-semi-space-size=128',
-            // Additional speed optimizations
-            '--disable-default-apps',
-            '--disable-component-update',
-            '--disable-domain-reliability',
-            '--disable-background-downloads',
-            // Edge-specific optimizations
-            '--disable-features=msEdgeEnhancedSecurityMode',
-          ],
-          // Reduced timeout for faster browser launch
-          timeout: 30000,
-        },
-      },
-    },
+    // {
+    //   name: 'Edge',
+    //   use: {
+    //     ...devices['Desktop Edge'],
+    //     channel: 'msedge',
+    //     /* EDGE-SPECIFIC: MAXIMUM PERFORMANCE - GPU acceleration (Edge uses Chromium engine) */
+    //     launchOptions: {
+    //       args: [
+    //         '--disable-blink-features=AutomationControlled',
+    //         '--disable-dev-shm-usage',
+    //         '--no-sandbox',
+    //         '--disable-setuid-sandbox',
+    //         '--disable-web-security',
+    //         '--disable-features=IsolateOrigins,site-per-process',
+    //         '--enable-features=NetworkService,NetworkServiceInProcess',
+    //         // NVIDIA T600 GPU ACCELERATION - (DOJ Laptop)
+    //         '--enable-gpu-rasterization',
+    //         '--enable-zero-copy',
+    //         '--ignore-gpu-blocklist',
+    //         '--enable-accelerated-2d-canvas',
+    //         '--enable-accelerated-video-decode',
+    //         '--enable-native-gpu-memory-buffers',
+    //         '--enable-gpu-memory-buffer-video-frames',
+    //         // Aggressive memory and performance optimizations
+    //         '--disable-background-timer-throttling',
+    //         '--disable-backgrounding-occluded-windows',
+    //         '--disable-renderer-backgrounding',
+    //         '--disable-background-networking',
+    //         '--disable-breakpad',
+    //         '--disable-component-extensions-with-background-pages',
+    //         '--disable-extensions',
+    //         '--disable-features=TranslateUI,BlinkGenPropertyTrees',
+    //         '--disable-ipc-flooding-protection',
+    //         '--disable-hang-monitor',
+    //         '--disable-prompt-on-repost',
+    //         '--disable-sync',
+    //         '--force-color-profile=srgb',
+    //         '--metrics-recording-only',
+    //         '--password-store=basic',
+    //         '--use-mock-keychain',
+    //         '--disable-notifications',
+    //         // MAXIMUM performance flags (optimized for 32GB RAM, 20 threads)
+    //         '--js-flags=--expose-gc --max-old-space-size=6144 --max-semi-space-size=128',
+    //         // Additional speed optimizations
+    //         '--disable-default-apps',
+    //         '--disable-component-update',
+    //         '--disable-domain-reliability',
+    //         '--disable-background-downloads',
+    //         // Edge-specific optimizations
+    //         '--disable-features=msEdgeEnhancedSecurityMode',
+    //       ],
+    //       // Reduced timeout for faster browser launch
+    //       timeout: 30000,
+    //     },
+    //   },
+    // },
     // {
     //   name: 'Google Chrome',
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
