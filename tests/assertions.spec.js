@@ -1,7 +1,7 @@
  import {test, expect} from '@playwright/test';
 
- test.describe("Learn Assertions", () =>{
-    test('Verify web page behavior', async ({page}) => {
+ test.describe("Learn Assertions @assertions_group", () =>{
+    test('Verify web page behavior @smoke', async ({page}) => {
         await page.goto('https://the-internet.herokuapp.com/')
         // 1. Does this page exist?
         await expect(page).toHaveURL('https://the-internet.herokuapp.com/')

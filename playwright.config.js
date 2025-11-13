@@ -83,7 +83,7 @@ export default defineConfig({
             '--disable-web-security',
             '--disable-features=IsolateOrigins,site-per-process',
             '--enable-features=NetworkService,NetworkServiceInProcess',
-            // NVIDIA T600 GPU ACCELERATION - (DOJ Laptop)
+            // NVIDIA T600 GPU ACCELERATION - (DOJ Laptop Settings)
             '--enable-gpu-rasterization',
             '--enable-zero-copy',
             '--ignore-gpu-blocklist',
