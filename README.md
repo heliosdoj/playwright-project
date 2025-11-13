@@ -322,10 +322,14 @@ pnpm run test example.spec.js --grep "has title"
 
 **Filter by tags:**
 ```bash
-# Run only smoke tests (if using @smoke tags)
-pnpm run test --grep "@smoke"
+# Run smoke tests using npm script (RECOMMENDED)
+pnpm run test:smoke
 
-# Run critical tests
+# Run regression tests using npm script
+pnpm run test:regression
+
+# Alternative: Run with grep directly
+pnpm run test --grep "@smoke"
 pnpm run test --grep "@critical"
 ```
 
@@ -358,6 +362,10 @@ For convenience, use these npm scripts defined in [`package.json`](package.json:
 ```bash
 # Run all tests
 pnpm test
+
+# Run tests by tags
+pnpm run test:smoke        # Run only @smoke tagged tests
+pnpm run test:regression   # Run only @regression tagged tests
 
 # Run tests in interactive UI mode
 pnpm run test:ui
