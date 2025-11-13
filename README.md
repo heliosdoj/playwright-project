@@ -60,23 +60,25 @@ A comprehensive Playwright testing project using pnpm as the package manager for
 # Run all tests
 pnpm test
 
+# Run tests in interactive UI mode
+pnpm run test:ui
+
 # View HTML report
 pnpm report
-# (Note: Playwright may suggest "npx playwright show-report" - use "pnpm exec" instead!)
 
 # Generate and view Allure report
 pnpm allure:gen
 pnpm allure:open
 ```
 
-> **💡 Tip**: If Playwright's CLI suggests using `npx` commands in its output messages, replace `npx` with `pnpm` since this project uses pnpm instead of npm.
-> 
+> **💡 Tip**: If Playwright's CLI suggests using `npx` commands in its output messages, replace `npx` with `pnpm exec` since this project uses pnpm instead of npm.
+>
 > **Key Command Formats**:
 > - `pnpm test` - Run all tests via npm script (uses config)
-> - `pnpm playwright test` - Run Playwright directly (works with individual files!)
-> - `pnpx playwright` - Alias for `pnpm exec playwright` (also works)
-> 
-> **Best Practice**: Use `pnpm playwright test <file>` for running individual test files.
+> - `pnpm exec playwright test` - Run Playwright directly (works with individual files!)
+> - `pnpm exec playwright test --ui` - Open interactive UI mode
+>
+> **Best Practice**: Use `pnpm exec playwright test <file>` for running individual test files.
 
 [↑ Back to Top](#learn-playwright-with-pnpm-)
 
@@ -128,23 +130,23 @@ pnpm test
 Run a single test file (since `testDir: './tests'`, just use the filename):
 
 ```bash
-# Run specific test file (RECOMMENDED)
-pnpm playwright test example.spec.js
+# Run specific test file (RECOMMENDED - shortest syntax)
+pnpm run test example.spec.js
+
+# Alternative: Direct command
+pnpm exec playwright test example.spec.js
 
 # Run create-article tests
-pnpm playwright test create-article.spec.js
+pnpm run test create-article.spec.js
 
 # Run login tests
-pnpm playwright test ccwlogin.spec.js
-
-# Also works with pnpx
-pnpx playwright test example.spec.js
+pnpm run test ccwlogin.spec.js
 ```
 
 Run multiple specific files:
 
 ```bash
-pnpm playwright test example.spec.js create-article.spec.js
+pnpm run test example.spec.js create-article.spec.js
 ```
 
 **Alternative - Using grep to filter:**
@@ -164,14 +166,14 @@ pnpm playwright test --grep "Create a new article"
 # Run all tests via npm script
 pnpm test
 
-# Run all tests directly
-pnpm playwright test
+# Run specific test file (RECOMMENDED - no tests/ prefix needed!)
+pnpm run test example.spec.js
 
-# Run specific test file (no tests/ prefix needed!)
-pnpm playwright test example.spec.js
+# Alternative: Direct command
+pnpm exec playwright test example.spec.js
 
 # Run multiple files
-pnpm playwright test example.spec.js create-article.spec.js
+pnpm run test example.spec.js create-article.spec.js
 ```
 
 **Headed mode (visible browser):**
@@ -180,10 +182,13 @@ pnpm playwright test example.spec.js create-article.spec.js
 pnpm test:headed
 
 # Run specific file with visible browser
-pnpm playwright test example.spec.js --headed
+pnpm run test example.spec.js --headed
+
+# Alternative: Direct command with headed mode
+pnpm exec playwright test example.spec.js --headed
 
 # Slow down execution for visibility
-pnpm playwright test --headed --slow-mo=1000
+pnpm exec playwright test --headed --slow-mo=1000
 ```
 
 **Debug mode:**
@@ -192,107 +197,113 @@ pnpm playwright test --headed --slow-mo=1000
 pnpm test:debug
 
 # Debug specific file
-pnpm playwright test example.spec.js --debug
+pnpm run test example.spec.js --debug
+
+# Alternative: Direct command
+pnpm exec playwright test example.spec.js --debug
 
 # Debug with grep filter
-pnpm playwright test --debug --grep "has title"
+pnpm exec playwright test --debug --grep "has title"
 ```
 
 **Browser selection:**
 ```bash
 # Run in specific browser
-pnpm playwright test --project=chromium
-pnpm playwright test --project=firefox
-pnpm playwright test --project=webkit
+pnpm run test --project=chromium
+pnpm run test --project=firefox
+pnpm run test --project=webkit
 
 # Run specific file in specific browser
-pnpm playwright test example.spec.js --project=chromium
+pnpm run test example.spec.js --project=chromium
 
 # Run in multiple browsers
-pnpm playwright test --project=chromium --project=firefox
+pnpm run test --project=chromium --project=firefox
 ```
 
 **Worker configuration:**
 ```bash
 # Use specific number of workers
-pnpm playwright test --workers=4
-pnpm playwright test --workers=1  # Sequential execution
+pnpm run test --workers=4
+pnpm run test --workers=1  # Sequential execution
 
 # Maximum workers (use all threads)
-pnpm playwright test --workers=20
+pnpm run test --workers=20
 
 # Specific file with custom workers
-pnpm playwright test example.spec.js --workers=1
+pnpm run test example.spec.js --workers=1
 ```
 
 **Test filtering:**
 ```bash
 # Filter by test name
-pnpm playwright test --grep "login"
-pnpm playwright test --grep "@smoke"
+pnpm run test --grep "login"
+pnpm run test --grep "@smoke"
 
 # Exclude tests
-pnpm playwright test --grep-invert "slow"
+pnpm run test --grep-invert "slow"
 
 # Run only failed tests from last run
-pnpm playwright test --last-failed
+pnpm run test --last-failed
 
 # Combine file and grep
-pnpm playwright test example.spec.js --grep "has title"
+pnpm run test example.spec.js --grep "has title"
 ```
 
 **Retries and timeouts:**
 ```bash
 # Run with retries
-pnpm playwright test --retries=3
+pnpm run test --retries=3
 
 # Set timeout
-pnpm playwright test --timeout=60000
+pnpm run test --timeout=60000
 
 # Set maximum failures
-pnpm playwright test --max-failures=5
+pnpm run test --max-failures=5
 
 # Specific file with retries
-pnpm playwright test create-article.spec.js --retries=2
+pnpm run test create-article.spec.js --retries=2
 ```
 
 **Reporting and traces:**
 ```bash
 # Generate trace for all tests
-pnpm playwright test --trace=on
+pnpm run test --trace=on
 
 # Generate trace only on failures
-pnpm playwright test --trace=on-first-retry
+pnpm run test --trace=on-first-retry
 
 # Update snapshots
-pnpm playwright test --update-snapshots
+pnpm run test --update-snapshots
 
 # Trace for specific file
-pnpm playwright test example.spec.js --trace=on
+pnpm run test example.spec.js --trace=on
 ```
 
 **Interactive UI mode:**
 ```bash
-# Open interactive test UI
-pnpm playwright test --ui
+# Open interactive test UI (using npm script)
+pnpm run test:ui
+
+# Open interactive test UI (direct command)
+pnpm exec playwright test --ui
 
 # Open UI for specific file
-pnpm playwright test example.spec.js --ui
+pnpm exec playwright test example.spec.js --ui
 ```
 
 **Combined options:**
 ```bash
 # Headed mode with specific worker count
-pnpm playwright test --headed --workers=2
+pnpm run test --headed --workers=2
 
 # Debug specific file with browser
-pnpm playwright test example.spec.js --debug --project=chromium
+pnpm run test example.spec.js --debug --project=chromium
 
 # Headed mode with grep filter
-pnpm playwright test --headed --grep "login"
+pnpm run test --headed --grep "login"
 
 # Multiple options combined
-pnpm playwright test example.spec.js --headed --workers=1 --timeout=30000
+pnpm run test example.spec.js --headed --workers=1 --timeout=30000
 ```
 
 ### Test Patterns and Filtering
@@ -300,44 +311,44 @@ pnpm playwright test example.spec.js --headed --workers=1 --timeout=30000
 **Filter by test name:**
 ```bash
 # Run tests matching "login"
-pnpm playwright test --grep "login"
+pnpm run test --grep "login"
 
 # Exclude tests matching a pattern
-pnpm playwright test --grep-invert "slow"
+pnpm run test --grep-invert "slow"
 
 # Combine file and grep
-pnpm playwright test example.spec.js --grep "has title"
+pnpm run test example.spec.js --grep "has title"
 ```
 
 **Filter by tags:**
 ```bash
 # Run only smoke tests (if using @smoke tags)
-pnpm playwright test --grep "@smoke"
+pnpm run test --grep "@smoke"
 
 # Run critical tests
-pnpm playwright test --grep "@critical"
+pnpm run test --grep "@critical"
 ```
 
 **Run only failed tests:**
 ```bash
 # Re-run tests that failed in the last run
-pnpm playwright test --last-failed
+pnpm run test --last-failed
 ```
 
 ### Browser-Specific Tests
 
 ```bash
 # Run in Chromium only (default)
-pnpm playwright test --project=chromium
+pnpm run test --project=chromium
 
 # Run specific file in Firefox
-pnpm playwright test example.spec.js --project=firefox
+pnpm run test example.spec.js --project=firefox
 
 # Run in WebKit (if enabled in config)
-pnpm playwright test --project=webkit
+pnpm run test --project=webkit
 
 # Run in multiple browsers
-pnpm playwright test --project=chromium --project=firefox
+pnpm run test --project=chromium --project=firefox
 ```
 
 ### npm Script Shortcuts
@@ -345,8 +356,11 @@ pnpm playwright test --project=chromium --project=firefox
 For convenience, use these npm scripts defined in [`package.json`](package.json:5):
 
 ```bash
-# Run all tests (uses 10 workers)
+# Run all tests
 pnpm test
+
+# Run tests in interactive UI mode
+pnpm run test:ui
 
 # Run with visible browser
 pnpm test:headed
@@ -981,11 +995,10 @@ kill %<job_number>      # Kill specific job
 
 ## pnpm Commands Reference
 
-> **💡 CLI Message Translation**: When Playwright CLI suggests `npx` commands, use `pnpm exec` or `pnpx`:
-> - Playwright says: `npx playwright show-report` → You use: `pnpx playwright show-report`
-> - Playwright says: `npx playwright test` → You use: `pnpx playwright test`
->
-> **Note**: `pnpx` is a convenient shorthand for `pnpm exec` - they work identically!
+> **💡 CLI Message Translation**: When Playwright CLI suggests `npx` commands, use `pnpm exec`:
+> - Playwright says: `npx playwright show-report` → You use: `pnpm exec playwright show-report`
+> - Playwright says: `npx playwright test` → You use: `pnpm exec playwright test`
+> - Playwright says: `npx playwright test --ui` → You use: `pnpm exec playwright test --ui`
 
 ### Package Management
 
@@ -1018,8 +1031,11 @@ pnpm outdated
 # Install Playwright browsers
 pnpm install:browsers
 
-# Run all tests (parallel, 2 workers)
+# Run all tests
 pnpm test
+
+# Run tests in interactive UI mode
+pnpm run test:ui
 
 # Run tests with browser UI visible
 pnpm test:headed
@@ -1041,48 +1057,55 @@ pnpm allure:open
 
 ```bash
 # Run all tests
-pnpm playwright test
+pnpm exec playwright test
 
 # Run specific file (no tests/ prefix needed!)
-pnpm playwright test example.spec.js
+pnpm exec playwright test example.spec.js
 
 # Run with options
-pnpm playwright test --headed --project=chromium
+pnpm exec playwright test --headed --project=chromium
 
 # Run specific file with options
-pnpm playwright test create-article.spec.js --headed --workers=1
+pnpm exec playwright test create-article.spec.js --headed --workers=1
 
-# Open test UI
-pnpm playwright test --ui
+# Open test UI (interactive mode)
+pnpm exec playwright test --ui
 
 # Generate code from browser actions
-pnpx playwright codegen <url>
+pnpm exec playwright codegen <url>
 
 # Show last test report
-pnpx playwright show-report
+pnpm exec playwright show-report
 
 # Install/update browsers
-pnpx playwright install
+pnpm exec playwright install
 
 # Install specific browser
-pnpx playwright install chromium
+pnpm exec playwright install chromium
 ```
 
-### Key Differences: `pnpm` vs `pnpx` vs `npx`
+### Key Differences: `pnpm` vs `pnpm run` vs `pnpm exec`
 
 - **`pnpm install`**: Manages package dependencies
-- **`pnpm <script>`**: Runs npm scripts from [`package.json`](package.json:1)
-- **`pnpm playwright test`**: Runs Playwright directly - **BEST for individual files**
-- **`pnpx <command>`**: Shorthand for `pnpm exec` - executes packages
-- **`pnpm exec <command>`**: Full form of pnpx - executes packages
-- **`npx <command>`**: npm's package executor (use `pnpm` instead)
+- **`pnpm <script>`**: Runs npm scripts from [`package.json`](package.json:1) (e.g., `pnpm test`)
+- **`pnpm run <script> [args]`**: Runs npm scripts with arguments (e.g., `pnpm run test example.spec.js`)
+- **`pnpm exec <command>`**: Executes locally installed packages directly
+- **`npx <command>`**: npm's package executor (deprecated for this project)
 
 ⚠️ **Important Notes:**
-- **For running tests**: Use `pnpm playwright test` or `pnpm test`
-- **For individual files**: `pnpm playwright test tests/example.spec.js` ✅
-- **For codegen/tools**: `pnpx playwright codegen` ✅
-- **For reports**: `pnpx playwright show-report` ✅
-- When Playwright CLI suggests `npx`, replace with `pnpm` or `pnpx`
+- **For running all tests**: `pnpm test` ✅ (shortest)
+- **For individual files**: `pnpm run test example.spec.js` ✅ (recommended - short and convenient)
+- **For UI mode**: `pnpm run test:ui` ✅ (easiest)
+- **For direct commands**: `pnpm exec playwright test` ✅ (when you need full control)
+- **For codegen/tools**: `pnpm exec playwright codegen` ✅
+- **For reports**: `pnpm exec playwright show-report` ✅
+- When Playwright CLI suggests `npx`, replace with `pnpm exec`
+
+**Why `pnpm run test <file>` is recommended:**
+- Shorter than `pnpm exec playwright test <file>`
+- Works through the npm script (consistent with other commands)
+- Same performance as direct execution
+- Easier to remember and type
 
 [↑ Back to Top](#learn-playwright-with-pnpm-)
 
@@ -1424,25 +1447,25 @@ pnpm test -- --workers=1
 # Increase workers in playwright.config.js if you have resources
 
 # Or temporarily increase
-pnpm playwright test --workers=15
+pnpm run test --workers=15
 ```
 
 **Problem: Tests flaky or failing randomly**
 ```bash
 # Run with retries
-pnpm playwright test --retries=3
+pnpm run test --retries=3
 
 # Enable traces to debug
-pnpm playwright test --trace=on
+pnpm run test --trace=on
 
 # Run specific test in debug mode
-pnpm playwright test example.spec.js --debug
+pnpm run test example.spec.js --debug
 ```
 
 **Problem: Timeout errors**
 ```bash
 # Increase timeout for slow tests
-pnpm playwright test --timeout=60000
+pnpm run test --timeout=60000
 
 # Or configure in playwright.config.js
 ```
@@ -1604,26 +1627,26 @@ workers: 1,   // Sequential (debugging only)
 
 ```bash
 # Run only specific test file
-pnpm playwright test example.spec.js
+pnpm run test example.spec.js
 
 # Run only failed tests
-pnpm playwright test --last-failed
+pnpm run test --last-failed
 
 # Run with grep to filter by name
-pnpm playwright test --grep "login"
+pnpm run test --grep "login"
 
 # Run specific file with grep
-pnpm playwright test create-article.spec.js --grep "article"
+pnpm run test example.spec.js --grep "article"
 ```
 
 ### 4. Browser Selection
 
 ```bash
 # Test only in Chromium during development
-pnpm playwright test --project=chromium
+pnpm run test --project=chromium
 
 # Test specific file in specific browser
-pnpm playwright test example.spec.js --project=chromium
+pnpm run test example.spec.js --project=chromium
 
 # Enable multiple browsers only for CI/pre-release
 # Commented out in playwright.config.js by default

@@ -5,6 +5,7 @@
   "scripts": {
     "install:browsers": "pnpm exec playwright install",
     "test": "pnpm exec playwright test",
+    "test:ui": "pnpm exec playwright test --ui",
     "test:headed": "pnpm exec playwright test --headed",
     "test:debug": "pnpm exec playwright test --debug",
     "report": "pnpm exec playwright show-report",

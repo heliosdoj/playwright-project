@@ -1,6 +1,6 @@
  import {test, expect} from '@playwright/test';
 
- test.describe("Learn Assertions", () =>{
+ test.describe.only("Learn Assertions", () =>{
     test('Verify web page behavior', async ({page}) => {
         await page.goto('https://the-internet.herokuapp.com/')
         // 1. Does this page exist?
@@ -31,14 +31,18 @@
         await expect(page.getByRole('checkbox').nth(0)).toBeChecked()
         await expect(page.getByRole('checkbox').nth(1)).not.toBeChecked()
     })
-    test.only('Continue with Assertions Part 3', async ({page}) => {
+    test('Continue with Assertions Part 3', async ({page}) => {
         await page.goto('https://the-internet.herokuapp.com/login')
         //8. Have Value
         await page.locator('#username').fill('tomsmith')
         await expect(page.locator('#username')).toHaveValue('tomsmith')
-        await page.pause()
         //9. Element is enabled
-        await expect(page.locator('button[type="submit"]')).toBeEnabled();
-        await page.pause()
+        await expect(page.locator('button[type="submit"]')).toBeEnabled()
+    })    
+    test('Continue with Assertions Part 4', async ({page}) => {
+        await page.goto('https://the-internet.herokuapp.com/')
+        //8. Verify Text was stored in variable
+        const headerText = await page.locator('h1').textContent()
+        expect(headerText).toBe('Welcome to the-internet')
     })    
  })
