@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "test:smoke": "pnpm exec playwright test --grep '@smoke'",
+    "test:regression": "pnpm exec playwright test --grep '@regression'",
     "install:browsers": "pnpm exec playwright install",
     "test": "pnpm exec playwright test",
     "test:ui": "pnpm exec playwright test --ui",
