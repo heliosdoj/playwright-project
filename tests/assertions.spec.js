@@ -19,7 +19,7 @@
         //5. Assert Contains some text
         await expect(page.locator('body')).toContainText('WYSIWYG')
     })
-    test.only ('Continue with Assertions Part 2', async ({page}) => {
+    test('Continue with Assertions Part 2', async ({page}) => {
         await page.goto('https://the-internet.herokuapp.com/')
         //6. Assert count
         await expect(page.locator('a')).toHaveCount(46)
@@ -30,5 +30,11 @@
         // Now verify that the 1st one is checked and the 2nd one is unchecked
         await expect(page.getByRole('checkbox').nth(0)).toBeChecked()
         await expect(page.getByRole('checkbox').nth(1)).not.toBeChecked()
+    })
+    test.only ('Continue with Assertions Part 3', async ({page}) => {
+        await page.goto('https://the-internet.herokuapp.com/login')
+        //8. Have Value
+        await page.locator('#username').fill('tomsmith')
+        await expect(page.locator('#username')).toHaveValue('tomsmith')
     })    
  })
