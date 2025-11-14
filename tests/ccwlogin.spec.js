@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-test('test', async ({ page }) => {
-  await page.goto('https://ccwstg.int.doj.ca.gov/?continue');
+test.only('test', async ({ page }) => {
+  await page.goto('https://ccwstg.int.doj.ca.gov/');
   await page.getByRole('link', { name: 'Processing Queues' }).click();
   await page.getByRole('button', { name: 'New IAR Queue' }).click();
   await page.getByRole('textbox', { name: 'CII Number' }).fill('90123456');
