@@ -93,10 +93,16 @@ LearnPlaywright/
 ├── 📖 README.md                 # This file
 │
 ├── 📁 tests/                    # Test files directory
+│   ├── assertions.spec.js       # Assertion examples and patterns
+│   ├── ccwlogin.spec.js         # CCW application login tests
+│   ├── codegen.spec.js          # Code generation tests
+│   ├── create-article.spec.js   # Article creation workflow tests
 │   ├── example.spec.js          # Example test suite
+│   ├── hooksAndPage.spec.js     # Test hooks and page fixture examples
 │   ├── login.spec.js            # Login functionality tests
+│   ├── many.spec.js             # Performance testing with multiple tests
 │   ├── selectors.spec.js        # CSS/XPath selector tests
-│   └── codegen.spec.js          # Code generation tests
+│   └── solution.js              # Solution examples
 │
 ├── 📁 tests-examples/           # Playwright example tests
 │   └── demo-todo-app.spec.js    # Demo todo application tests
@@ -139,8 +145,14 @@ pnpm exec playwright test example.spec.js
 # Run create-article tests
 pnpm run test create-article.spec.js
 
-# Run login tests
+# Run CCW login tests
 pnpm run test ccwlogin.spec.js
+
+# Run assertions examples
+pnpm run test assertions.spec.js
+
+# Run hooks and page fixture examples
+pnpm run test hooksAndPage.spec.js
 ```
 
 Run multiple specific files:
@@ -1121,6 +1133,19 @@ pnpm exec playwright install chromium
 
 Configuration is managed in [`playwright.config.js`](playwright.config.js:1).
 
+### Current Test Suite
+
+The project includes the following test files:
+- [`assertions.spec.js`](tests/assertions.spec.js:1) - Comprehensive assertion examples and patterns
+- [`ccwlogin.spec.js`](tests/ccwlogin.spec.js:1) - CCW application login and navigation tests
+- [`codegen.spec.js`](tests/codegen.spec.js:1) - Code generation examples
+- [`create-article.spec.js`](tests/create-article.spec.js:1) - End-to-end article creation workflow
+- [`example.spec.js`](tests/example.spec.js:1) - Basic example test suite
+- [`hooksAndPage.spec.js`](tests/hooksAndPage.spec.js:1) - Test hooks and page fixture demonstrations
+- [`login.spec.js`](tests/login.spec.js:1) - Login functionality tests
+- [`many.spec.js`](tests/many.spec.js:1) - Performance testing with 20 parallel tests
+- [`selectors.spec.js`](tests/selectors.spec.js:1) - CSS and XPath selector examples
+
 ### Key Settings
 
 ```javascript
@@ -1147,9 +1172,9 @@ Configuration is managed in [`playwright.config.js`](playwright.config.js:1).
 ```
 
 **Auto-Scaling Explained:**
-- `workers: undefined` = Playwright automatically uses ~50% of CPU cores
-- On your system: Auto-scales to ~10 workers (optimal balance)
-- Scales up/down based on system load and available resources
+- `workers: Math.min(Math.floor(os.cpus().length * 0.5), 15)` = Dynamic calculation
+- On your system (20 threads): Uses 10 workers (50% of CPU cores, capped at 15)
+- Automatically adjusts based on available CPU cores
 - **Best for growing test suites** - no manual adjustment needed!
 
 **Important**: Since `testDir: './tests'`, you can run tests using just the filename:
@@ -1162,7 +1187,7 @@ pnpm playwright test tests/example.spec.js  # ❌ Unnecessary
 - CPU: 14 cores / 20 logical processors
 - RAM: 32GB
 - GPU: NVIDIA T600 Laptop GPU (4GB VRAM)
-- Workers: **Auto-scaling** (Playwright dynamically adjusts based on CPU cores)
+- Workers: **Dynamic (10 workers)** - Calculated as 50% of CPU cores, max 15
 - Performance Mode: AGGRESSIVE - All optimizations enabled
 
 ### Available Projects

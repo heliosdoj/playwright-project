@@ -32,11 +32,11 @@ pnpm allure:open         # Open Allure report
 
 ### What Changed
 
-1. **Package Manager**: npm → Bun
+1. **Package Manager**: npm/bun → pnpm
 2. **Scripts**: Updated all scripts to use `pnpm exec` instead of `npx`
-3. **Lock File**: `package-lock.json` → `bun.lockb`
-4. **Worker Configuration**: Optimized from 2 → 10 workers for 20-thread system
-5. **Performance**: Significantly faster installation and execution
+3. **Lock File**: `package-lock.json`/`bun.lockb` → `pnpm-lock.yaml`
+4. **Worker Configuration**: Dynamic auto-scaling (uses ~50% of CPU cores, ~10 workers on 20-thread system)
+5. **Performance**: Efficient disk usage with content-addressable storage
 
 ### Performance Improvements
 
@@ -72,7 +72,7 @@ To open last HTML report run:
 pnpm exec playwright show-report
 ```
 
-**Why?** This project uses Bun instead of npm. All `npx` commands work with `pnpm exec` - they're just faster and align with the project setup.
+**Why?** This project uses pnpm instead of npm. All `npx` commands work with `pnpm exec` - they provide better caching and align with the project setup.
 
 ## Essential Commands
 
@@ -101,7 +101,7 @@ pnpm update
 ### Running Tests
 
 ```bash
-# Run all tests (10 workers)
+# Run all tests (auto-scaling workers, typically ~10 on 20-thread system)
 pnpm test
 
 # Run with visible browser (headed mode)
@@ -186,20 +186,22 @@ pnpm allure:open
 
 ### Current Setup
 
-**Optimized for your 20-thread system:**
-- **Workers**: 10 (50% of threads)
-- **Rationale**: Leaves CPU headroom for browser processes, system resources, and stability
-- **Location**: `playwright.config.js` line 29
+**Dynamic scaling for your 20-thread system:**
+- **Workers**: `Math.min(Math.floor(os.cpus().length * 0.5), 15)`
+- **Result**: 10 workers (50% of 20 threads, capped at 15 max)
+- **Rationale**: Automatically adjusts based on CPU cores, leaves headroom for browser processes
+- **Location**: [`playwright.config.js`](playwright.config.js:30)
 
 ### Configuration Options
 
 ```javascript
 // In playwright.config.js
-workers: 10,  // Current - balanced for your system
-workers: 20,  // Maximum - uses all threads (may be unstable)
-workers: 15,  // Aggressive - high parallelism
-workers: 6,   // Conservative - more stable
-workers: 1,   // Sequential - debugging only
+workers: Math.min(Math.floor(os.cpus().length * 0.5), 15),  // Current - dynamic (RECOMMENDED)
+workers: 20,         // Maximum - uses all threads
+workers: 15,         // Aggressive - high parallelism (current cap)
+workers: 10,         // Manual setting (same as dynamic result on your system)
+workers: 6,          // Conservative - more stable
+workers: 1,          // Sequential - debugging only
 ```
 
 ### Temporarily Override Workers
@@ -217,17 +219,23 @@ pnpm exec playwright test --workers=6
 
 ### Expected Performance
 
-With 10 workers on your system:
-- Small test suite (5 tests): ~1-2 seconds
+With auto-scaling (~10 workers) on your system:
+- Small test suite (7 tests): ~16-20 seconds
 - Medium test suite (50 tests): ~5-10 seconds
-- Large test suite (500 tests): ~30-60 seconds
+- Large test suite (300+ tests): ~6-8 minutes (with 20 workers)
+
+**Current Test Suite:**
+- 9 test files with various test scenarios
+- Includes performance tests ([`many.spec.js`](tests/many.spec.js:1) with 20 parallel tests)
+- End-to-end workflows ([`create-article.spec.js`](tests/create-article.spec.js:1))
+- Assertion examples ([`assertions.spec.js`](tests/assertions.spec.js:1))
 
 ## Key Differences: pnpm vs npm
 
 ### Command Translation
 
-| Task | npm | Bun |
-|------|-----|-----|
+| Task | npm | pnpm |
+|------|-----|------|
 | Install packages | `npm install` | `pnpm install` |
 | Run script | `npm run test` | `pnpm test` |
 | Execute package | `npx playwright test` | `pnpm exec playwright test` |
@@ -237,20 +245,20 @@ With 10 workers on your system:
 
 ### Important Distinctions
 
-**`bun test` vs `pnpm test`:**
-- ❌ `bun test` - Runs Bun's native test runner (won't work with Playwright)
-- ✅ `pnpm test` - Runs npm script from package.json (uses Playwright)
+**`pnpm test` vs `pnpm exec playwright test`:**
+- ✅ `pnpm test` - Runs npm script from [`package.json`](package.json:10) (recommended for all tests)
+- ✅ `pnpm exec playwright test` - Direct Playwright execution (useful for specific files)
 
 **`pnpm exec` vs `npx`:**
-- `pnpm exec` is Bun's equivalent of `npx`
-- Faster execution with better caching
+- `pnpm exec` is pnpm's equivalent of `npx`
+- Better caching and dependency resolution
 - Always use `pnpm exec` when Playwright suggests `npx`
 
 ### Lock Files
 
-- **npm**: `package-lock.json`
-- **pnpm**: `pnpm-lock.yaml` (YAML format - readable)
-- **bun**: `bun.lockb` (binary format - deprecated in this project)
+- **npm**: `package-lock.json` (JSON format)
+- **pnpm**: `pnpm-lock.yaml` (YAML format - human-readable)
+- **bun**: `bun.lockb` (binary format - not used in this project)
 
 ## Common Workflows
 
@@ -334,11 +342,12 @@ pnpm add -D @types/lodash @types/moment
 - run: npm test
 ```
 
-**After (Bun):**
+**After (pnpm):**
 ```yaml
-- uses: oven-sh/setup-bun@v1
+- name: Setup pnpm
+  uses: pnpm/action-setup@v2
   with:
-    bun-version: latest
+    version: 8
 - run: pnpm install --frozen-lockfile
 - run: pnpm install:browsers
 - run: pnpm test
@@ -386,9 +395,9 @@ pnpm exec playwright install --force
 **3. Old lock files causing conflicts**
 ```bash
 # Remove old lock files
-rm -f package-lock.json pnpm-lock.yaml
+rm -f package-lock.json bun.lockb
 
-# Reinstall with Bun
+# Reinstall with pnpm
 pnpm install
 ```
 
@@ -437,30 +446,30 @@ pnpm allure:gen
 # Navigate to: allure-report/index.html
 ```
 
-## Benefits of Using Bun
+## Benefits of Using pnpm
 
 ### Performance
 
-- **39% faster dependency installation** (2.4s → 1.4s)
-- **3% faster test execution** (3.4s → 3.3s)
-- **Better caching** - dependencies reused across projects
-- **Faster script execution** - `pnpm exec` is quicker than `npx`
+- **Fast installation** with content-addressable storage
+- **Efficient disk usage** - hard links save space across projects
+- **Better caching** - dependencies reused efficiently
+- **Reliable** - more stable than bun for Playwright testing
 
 ### Developer Experience
 
-- **Single tool** for runtime and package management
 - **Compatible** with all npm packages
-- **Simple** - fewer tools to manage
-- **Modern** - built with latest JavaScript features
+- **Strict** - better dependency management
+- **Workspace support** - excellent for monorepos
+- **Modern** - efficient package management
 
 ### System Utilization
 
-With 10 workers optimized for your 20-thread system:
+With auto-scaling workers (~10 on your 20-thread system):
 - Efficient parallel test execution
-- Stable resource usage (50% CPU utilization)
+- Dynamic resource adjustment based on system load
 - Room for browser processes and GPU acceleration
-- Faster test suite completion
 - Optimal for 32GB RAM configuration
+- Scales automatically as test suite grows
 
 ## Additional Resources
 
@@ -472,4 +481,4 @@ With 10 workers optimized for your 20-thread system:
 
 ---
 
-**Migration completed successfully!** Your Playwright tests now run reliably with pnpm, providing better stability than bun while maintaining full compatibility with the existing test suite.
+**Migration completed successfully!** Your Playwright tests now run reliably with pnpm, providing better stability and efficient resource management while maintaining full compatibility with the existing test suite.
