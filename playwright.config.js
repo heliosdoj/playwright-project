@@ -227,13 +227,5 @@ export default defineConfig({
 
    // Optional: avoid scanning junk
   testIgnore: ['**/node_modules/**', '**/venv/**', '**/allure-results/**', '**/allure-report/**', '**/playwright-report/**', '**/test-results/**'],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'python3 -m http.server 5500',
-  //   url: 'http://127.0.0.1:5500',
-  //   reuseExistingServer: !process.env.CI,
-  //   timeout: 120 * 1000,
-  // },
 });
 
