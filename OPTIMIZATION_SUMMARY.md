@@ -136,13 +136,13 @@ Run tests with the following commands to monitor performance:
 
 ```bash
 # Run tests with timing information
-bun run test --reporter=list
+pnpm test --reporter=list
 
 # Generate HTML report with detailed metrics
-bun run test --reporter=html
+pnpm test --reporter=html
 
 # View Allure report with comprehensive analytics
-bun run allure:gen && bun run allure:open
+pnpm run allure:gen && pnpm run allure:open
 ```
 
 ## Conclusion

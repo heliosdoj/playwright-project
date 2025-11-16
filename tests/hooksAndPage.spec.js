@@ -11,7 +11,7 @@
 
 import { test, expect } from '@playwright/test';
 
-test.describe.only('Basic Auth Tests', () => {
+test.describe('Basic Auth Tests', () => {
     test.beforeEach(async ({ page }) => {
         // HTTP Basic Auth requires credentials in the URL
         // Format: https://username:password@domain.com/path

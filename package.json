@@ -6,6 +6,7 @@
     "test:smoke": "pnpm exec playwright test --grep \"@smoke\"",
     "test:regression": "pnpm exec playwright test --grep \"@regression\"",
     "test:all": "pnpm exec playwright test --grep \"@regression\" && pnpm exec playwright test --grep \"@regression\"",
+    "test:except": "pnpm exec playwright test --grep-invert",
     "install:browsers": "pnpm exec playwright install",
     "test": "pnpm exec playwright test",
     "test:ui": "pnpm exec playwright test --ui",

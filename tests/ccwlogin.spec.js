@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.only('test', async ({ page }) => {
+test('test', async ({ page }) => {
   await page.goto('https://ccwstg.int.doj.ca.gov/');
   await page.getByRole('link', { name: 'Processing Queues' }).click();
   await page.getByRole('button', { name: 'New IAR Queue' }).click();

@@ -45,7 +45,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL for relative navigation */
-    // baseURL: 'http://localhost:3000',
+    baseURL: 'https://the-internet.herokuapp.com',
     
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
@@ -73,7 +73,6 @@ export default defineConfig({
       name: 'Chromium',
       use: {
         ...devices['Desktop Chrome'],
-        /* CHROMIUM-SPECIFIC: MAXIMUM PERFORMANCE - GPU acceleration enabled, all optimizations */
         launchOptions: {
           args: [
             '--disable-blink-features=AutomationControlled',
@@ -83,15 +82,7 @@ export default defineConfig({
             '--disable-web-security',
             '--disable-features=IsolateOrigins,site-per-process',
             '--enable-features=NetworkService,NetworkServiceInProcess',
-            // NVIDIA T600 GPU ACCELERATION - (DOJ Laptop Settings)
-            '--enable-gpu-rasterization',
-            '--enable-zero-copy',
-            '--ignore-gpu-blocklist',
-            '--enable-accelerated-2d-canvas',
-            '--enable-accelerated-video-decode',
-            '--enable-native-gpu-memory-buffers',
-            '--enable-gpu-memory-buffer-video-frames',
-            // Aggressive memory and performance optimizations
+            // Common performance optimizations
             '--disable-background-timer-throttling',
             '--disable-backgrounding-occluded-windows',
             '--disable-renderer-backgrounding',
@@ -109,15 +100,22 @@ export default defineConfig({
             '--password-store=basic',
             '--use-mock-keychain',
             '--disable-notifications',
-            // MAXIMUM performance flags (optimized for 32GB RAM, 20 threads)
             '--js-flags=--expose-gc --max-old-space-size=6144 --max-semi-space-size=128',
-            // Additional speed optimizations
             '--disable-default-apps',
             '--disable-component-update',
             '--disable-domain-reliability',
             '--disable-background-downloads',
+            // Windows-specific GPU acceleration
+            ...(os.platform() === 'win32' ? [
+              '--enable-gpu-rasterization',
+              '--enable-zero-copy',
+              '--ignore-gpu-blocklist',
+              '--enable-accelerated-2d-canvas',
+              '--enable-accelerated-video-decode',
+              '--enable-native-gpu-memory-buffers',
+              '--enable-gpu-memory-buffer-video-frames',
+            ] : []),
           ],
-          // Reduced timeout for faster browser launch
           timeout: 30000,
         },
       },
