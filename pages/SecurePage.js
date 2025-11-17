@@ -71,7 +71,8 @@ export default class SecurePage {
      * It will automatically wait for the element to be visible before trying
      * to read its text, which makes our test more reliable.
      */
-    return this.actions.getText(this.flashMessage, { timeout: 8000 });
+    const message = await this.actions.getText(this.flashMessage, { timeout: 8000 });
+    return message || '';
   }
 
   /**

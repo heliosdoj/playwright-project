@@ -3,6 +3,19 @@ export default class CommonActions {
   constructor(page) {
     this.page = page;
   }
+  
+  /**
+   * A private helper method to allow action methods to accept either a selector string or a Playwright Locator object.
+   * This centralizes the locator resolution logic.
+   * @param {string | import('@playwright/test').Locator} selectorOrLocator - A css selector string or a Playwright Locator
+   * @returns {import('@playwright/test').Locator} - A Playwright Locator
+   * @private
+   */
+  _getLocator(selectorOrLocator) {
+    return typeof selectorOrLocator === 'string'
+      ? this.page.locator(selectorOrLocator)
+      : selectorOrLocator;
+  }
 
   // ——————————————————————— NAVIGATION ———————————————————————
   async navigate(url, options = {}) {
@@ -11,110 +24,110 @@ export default class CommonActions {
   }
 
   // ——————————————————————— CLICK & INTERACTIONS ———————————————————————
-  async click(selector, options = {}) {
+  async click(selectorOrLocator, options = {}) {
     const { force = false, timeout = 10_000 } = options;
-    const locator = this.page.locator(selector);
+    const locator = this._getLocator(selectorOrLocator);
     await locator.waitFor({ state: 'visible', timeout });
     await locator.click({ force, timeout });
   }
 
-  async dblClick(selector) {
-    const locator = this.page.locator(selector);
+  async dblClick(selectorOrLocator) {
+    const locator = this._getLocator(selectorOrLocator);
     await locator.dblclick();
   }
 
-  async hover(selector) {
-    const locator = this.page.locator(selector);
+  async hover(selectorOrLocator) {
+    const locator = this._getLocator(selectorOrLocator);
     await locator.hover();
   }
 
   // ——————————————————————— FORM INPUTS ———————————————————————
-  async fill(selector, text, options = {}) {
+  async fill(selectorOrLocator, text, options = {}) {
     const { timeout = 10_000 } = options;
-    const locator = this.page.locator(selector);
+    const locator = this._getLocator(selectorOrLocator);
     await locator.fill(text, { timeout });
   }
-
-  async type(selector, text, options = {}) {
+  
+  async type(selectorOrLocator, text, options = {}) {
     const { delay = 100, timeout = 10_000 } = options;
-    const locator = this.page.locator(selector);
+    const locator = this._getLocator(selectorOrLocator);
     await locator.pressSequentially(text, { delay, timeout });
   }
 
-  async clear(selector) {
-    const locator = this.page.locator(selector);
+  async clear(selectorOrLocator) {
+    const locator = this._getLocator(selectorOrLocator);
     await locator.fill(''); // Playwright's clear
   }
 
   // ——————————————————————— SELECT & CHECKBOX ———————————————————————
-  async selectOption(selector, valueOrText, options = {}) {
+  async selectOption(selectorOrLocator, valueOrText, options = {}) {
     const { timeout = 10_000 } = options;
-    const locator = this.page.locator(selector);
+    const locator = this._getLocator(selectorOrLocator);
     await locator.selectOption(valueOrText, { timeout });
   }
 
-  async check(selector, options = {}) {
+  async check(selectorOrLocator, options = {}) {
     const { timeout = 10_000 } = options;
-    const locator = this.page.locator(selector);
+    const locator = this._getLocator(selectorOrLocator);
     await locator.check({ timeout });
   }
 
-  async uncheck(selector) {
-    const locator = this.page.locator(selector);
+  async uncheck(selectorOrLocator) {
+    const locator = this._getLocator(selectorOrLocator);
     await locator.uncheck();
   }
 
-  async isChecked(selector, options = {}) {
+  async isChecked(selectorOrLocator, options = {}) {
     const { timeout = 10_000 } = options;
-    const locator = this.page.locator(selector);
+    const locator = this._getLocator(selectorOrLocator);
     await locator.waitFor({ state: 'attached', timeout });
     return await locator.isChecked();
   }
 
   // ——————————————————————— READ & ASSERT ———————————————————————
-  async getText(selector, options = {}) {
+  async getText(selectorOrLocator, options = {}) {
     const { timeout = 10_000, trim = true } = options;
-    const locator = this.page.locator(selector);
+    const locator = this._getLocator(selectorOrLocator);
     await locator.waitFor({ state: 'visible', timeout });
     const text = await locator.textContent({ timeout });
     return trim ? text?.trim() : text;
   }
 
-  async getAttribute(selector, attribute, options = {}) {
+  async getAttribute(selectorOrLocator, attribute, options = {}) {
     const { timeout = 10_000 } = options;
-    const locator = this.page.locator(selector);
+    const locator = this._getLocator(selectorOrLocator);
     await locator.waitFor({ state: 'attached', timeout });
     return await locator.getAttribute(attribute);
   }
 
-  async isVisible(selector, options = {}) {
+  async isVisible(selectorOrLocator, options = {}) {
     const { timeout = 10_000 } = options;
-    const locator = this.page.locator(selector);
+    const locator = this._getLocator(selectorOrLocator);
     return await locator.isVisible({ timeout });
   }
 
-  async isHidden(selector, options = {}) {
+  async isHidden(selectorOrLocator, options = {}) {
     const { timeout = 10_000 } = options;
-    const locator = this.page.locator(selector);
+    const locator = this._getLocator(selectorOrLocator);
     return await locator.isHidden({ timeout });
   }
 
-  async isEnabled(selector, options = {}) {
+  async isEnabled(selectorOrLocator, options = {}) {
     const { timeout = 10_000 } = options;
-    const locator = this.page.locator(selector);
+    const locator = this._getLocator(selectorOrLocator);
     return await locator.isEnabled({ timeout });
   }
 
-  async isDisabled(selector, options = {}) {
+  async isDisabled(selectorOrLocator, options = {}) {
     const { timeout = 10_000 } = options;
-    const locator = this.page.locator(selector);
+    const locator = this._getLocator(selectorOrLocator);
     return await locator.isDisabled({ timeout });
   }
 
   // ——————————————————————— WAIT ———————————————————————
-  async waitFor(selector, options = {}) {
+  async waitFor(selectorOrLocator, options = {}) {
     const { state = 'visible', timeout = 10_000 } = options;
-    await this.page.locator(selector).waitFor({ state, timeout });
+    await this._getLocator(selectorOrLocator).waitFor({ state, timeout });
   }
 
   async waitForUrl(expectedUrl, options = {}) {
@@ -127,13 +140,13 @@ export default class CommonActions {
   }
 
   // ——————————————————————— UPLOAD ———————————————————————
-  async uploadFile(selector, filePath) {
-    const locator = this.page.locator(selector);
+  async uploadFile(selectorOrLocator, filePath) {
+    const locator = this._getLocator(selectorOrLocator);
     await locator.setInputFiles(filePath);
   }
 
   // ——————————————————————— COUNT ———————————————————————
-  async count(selector) {
-    return await this.page.locator(selector).count();
+  async count(selectorOrLocator) {
+    return await this._getLocator(selectorOrLocator).count();
   }
 }
