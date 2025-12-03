@@ -1,0 +1,26 @@
+{
+  "entryPoints": [
+    "tests/",
+    "utils/",
+    "pages/",
+    "types/"
+  ],
+  "entryPointStrategy": "expand",
+  "out": "docs",
+  "exclude": [
+    "**/node_modules/**",
+    "**/*.spec.ts",
+    "**/*test.ts"
+  ],
+  "name": "QA Automation Framework",
+  "includeVersion": true,
+  "readme": "README.md",
+  "navigation": {
+    "includeCategories": true,
+    "includeFolders": true
+  },
+  "categorizeByGroup": true,
+  "sort": ["source-order"],
+  "theme": "default",
+  "highlightLanguages": ["mermaid", "ts", "bash", "typescript", "json"]
+}

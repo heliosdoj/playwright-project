@@ -1,0 +1,73 @@
+{
+  "compilerOptions": {
+    // Target and Module Settings
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    
+    // Strict Type Checking (Production Grade)
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "alwaysStrict": true,
+    
+    // Additional Checks for Large Codebases
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    
+    // Path Aliases for Clean Imports
+    "baseUrl": ".",
+    "paths": {
+      "@pages/*": ["pages/*"],
+      "@utils/*": ["utils/*"],
+      "@types/*": ["types/*"],
+      "@tests/*": ["tests/*"]
+    },
+    
+    // Output and Source Settings
+    "outDir": "./dist",
+    "rootDir": ".",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    
+    // Interop Settings
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": false,
+    
+    // Skip lib check for faster builds
+    "skipLibCheck": true,
+    
+    // Include type definitions
+    "types": ["node"]
+  },
+  "include": [
+    "pages/**/*.ts",
+    "tests/**/*.ts",
+    "utils/**/*.ts",
+    "types/**/*.ts",
+    "playwright.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "allure-results",
+    "allure-report",
+    "playwright-report",
+    "test-results"
+  ]
+}
