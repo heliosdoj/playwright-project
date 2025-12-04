@@ -3,25 +3,43 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test:smoke": "pnpm exec playwright test --grep \"@smoke\"",
-    "test:regression": "pnpm exec playwright test --grep \"@regression\"",
-    "test:all": "pnpm exec playwright test --grep \"@regression\" && pnpm exec playwright test --grep \"@regression\"",
-    "test:except": "pnpm exec playwright test --grep-invert",
-    "install:browsers": "pnpm exec playwright install",
-    "test": "pnpm exec playwright test",
-    "test:ui": "pnpm exec playwright test --ui",
-    "test:headed": "pnpm exec playwright test --headed",
-    "test:debug": "pnpm exec playwright test --debug",
-    "test:steps": "pnpm exec playwright test --headed --debug",
-    "report": "pnpm exec playwright show-report",
-    "allure:gen": "pnpm exec allure generate allure-results --clean -o allure-report",
-    "allure:open": "pnpm exec allure open allure-report",
-    "lint": "pnpm exec eslint . --ext .ts,.js",
-    "lint:fix": "pnpm exec eslint . --ext .ts,.js --fix",
-    "format": "pnpm exec prettier --write .",
-    "format:check": "pnpm exec prettier --check .",
-    "lint:all": "pnpm exec eslint . --ext .ts,.js && pnpm exec prettier --check .",
-    "generate:docs": "pnpm exec typedoc --options typedoc.json"
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep \"@smoke\"",
+    "test:regression": "playwright test --grep \"@regression\"",
+    "test:all": "playwright test",
+    "test:except": "playwright test --grep-invert",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:steps": "playwright test --headed --debug",
+    "install:browsers": "playwright install",
+    "report": "playwright show-report",
+
+    "allure:gen": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report",
+
+    "lint": "eslint . --ext .ts,.js",
+    "lint:fix": "eslint . --ext .ts,.js --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:all": "eslint . --ext .ts,.js && prettier --check .",
+
+    "typecheck": "tsc --noEmit",
+    "typecheck:watch": "tsc --noEmit --watch",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepare": "husky install",
+
+    "generate:docs": "typedoc --options typedoc.json"
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml,css,html}": [
+      "prettier --write"
+    ]
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
@@ -41,6 +59,6 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typedoc": "^0.26.5",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.2"
   }
 }
