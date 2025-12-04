@@ -47,12 +47,12 @@ pnpm allure:open         # Open Allure report
 
 ### What Stayed the Same
 
-- ✅ All Playwright test code (no changes needed)
-- ✅ Test file structure and organization
-- ✅ Configuration files (playwright.config.js)
-- ✅ Allure reporting integration
-- ✅ Browser compatibility
-- ✅ CI/CD workflows (just swap npm for bun commands)
+- All Playwright test code (no changes needed)
+- Test file structure and organization
+- Configuration files (playwright.config.js)
+- Allure reporting integration
+- Browser compatibility
+- CI/CD workflows (just swap npm for bun commands)
 
 ## Important: npx vs pnpm exec
 
@@ -246,8 +246,8 @@ With auto-scaling (~10 workers) on your system:
 ### Important Distinctions
 
 **`pnpm test` vs `pnpm exec playwright test`:**
-- ✅ `pnpm test` - Runs npm script from [`package.json`](package.json:10) (recommended for all tests)
-- ✅ `pnpm exec playwright test` - Direct Playwright execution (useful for specific files)
+- `pnpm test` - Runs npm script from [`package.json`](package.json:10) (recommended for all tests)
+- `pnpm exec playwright test` - Direct Playwright execution (useful for specific files)
 
 **`pnpm exec` vs `npx`:**
 - `pnpm exec` is pnpm's equivalent of `npx`

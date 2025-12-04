@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { type Page, expect, test } from '@playwright/test';
 
 /**
  * @fileoverview Tests demonstrating Playwright hooks (beforeEach, afterEach) and
@@ -19,7 +19,7 @@ test.describe('Hooks and Authentication Examples', () => {
   test('Navigate to login page using hooks', async ({ page }: { page: Page }) => {
     // Click on the Form Authentication link
     await page.locator('ul li a[href="/login"]').click();
-    
+
     // Verify we're on the login page
     await expect(page).toHaveURL(/.*login/);
     await expect(page.locator('h2')).toHaveText('Login Page');
@@ -28,7 +28,7 @@ test.describe('Hooks and Authentication Examples', () => {
   test('Navigate to checkboxes page using hooks', async ({ page }: { page: Page }) => {
     // Click on the Checkboxes link
     await page.locator('ul li a[href="/checkboxes"]').click();
-    
+
     // Verify we're on the checkboxes page
     await expect(page).toHaveURL(/.*checkboxes/);
     await expect(page.locator('h3')).toHaveText('Checkboxes');
@@ -43,8 +43,10 @@ test.describe('HTTP Basic Authentication', () => {
   test('Basic Auth with credentials in URL', async ({ page }: { page: Page }) => {
     // Navigate with basic auth credentials embedded in URL
     await page.goto('https://admin:admin@the-internet.herokuapp.com/basic_auth');
-    
+
     // Verify successful authentication
-    await expect(page.locator('p')).toContainText('Congratulations! You must have the proper credentials.');
+    await expect(page.locator('p')).toContainText(
+      'Congratulations! You must have the proper credentials.',
+    );
   });
 });

@@ -1,23 +1,23 @@
 /**
  * POM Tests - Page Object Model Test Specifications
- * 
+ *
  * This test file demonstrates the usage of TypeScript with Playwright
  * and the Page Object Model pattern.
- * 
+ *
  * TypeScript Features Demonstrated:
  * - Strongly typed test fixtures (page parameter)
  * - Type-safe page object usage
  * - Typed variable declarations
  * - Async/await with proper Promise handling
  */
+import { expect, test } from '@playwright/test';
 
-import { test, expect } from '@playwright/test';
 import PomManager from '../pages/PomManager';
-import type { ILoginPage, ISecurePage, ICheckboxesPage } from '../types/pages.types';
+import type { ICheckboxesPage, ILoginPage, ISecurePage } from '../types/pages.types';
 
 /**
  * Login Page Tests using Page Object Model
- * 
+ *
  * These tests verify the login functionality using properly typed
  * page objects for maintainability and type safety.
  */
@@ -42,7 +42,7 @@ test.describe('Login Page Tests (POM)', () => {
 
   /**
    * Test: Valid credentials should result in successful login
-   * 
+   *
    * This test verifies the happy path of the login flow.
    */
   test('Login with valid credentials shows success message', async () => {
@@ -69,7 +69,7 @@ test.describe('Login Page Tests (POM)', () => {
 
 /**
  * Checkboxes Page Tests using Page Object Model
- * 
+ *
  * These tests verify checkbox functionality including checking,
  * unchecking, toggling, and state validation.
  */
@@ -95,10 +95,10 @@ test.describe('Checkboxes Page Tests (POM)', () => {
   test('Uncheck all checkboxes', async () => {
     // First ensure all are checked
     await checkboxesPage.checkAll();
-    
+
     // Then uncheck all
     await checkboxesPage.uncheckAll();
-    
+
     // Verify all are unchecked
     const states = await checkboxesPage.getCheckboxStates();
     expect(states).toEqual([false, false]);
@@ -129,7 +129,7 @@ test.describe('Checkboxes Page Tests (POM)', () => {
 
   /**
    * Test: Handle unknown initial state gracefully
-   * 
+   *
    * This test demonstrates handling checkboxes that may start
    * in any state and normalizing them to a known state.
    */

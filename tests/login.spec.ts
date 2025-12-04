@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { type Page, expect, test } from '@playwright/test';
 
 /**
  * @fileoverview Direct login test demonstrating a complete login flow
@@ -26,7 +26,7 @@ test('This is a login test @smoke @regression', async ({ page }: { page: Page })
 
   // Verify secure area subheader
   await expect(page.locator('h4.subheader')).toContainText(
-    /Welcome to the Secure Area. When you are done click logout below./
+    /Welcome to the Secure Area. When you are done click logout below./,
   );
 
   // Logout

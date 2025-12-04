@@ -1,11 +1,11 @@
-import { test, expect, type Page } from '@playwright/test';
+import { type Page, expect, test } from '@playwright/test';
 import * as path from 'path';
 
 /**
  * @fileoverview Demonstrates various Playwright selector strategies.
  * This test uses a local HTML file (clickme.html) to showcase different
  * ways to locate and interact with elements on a page.
- * 
+ *
  * Selector strategies covered:
  * 1. ID selector
  * 2. Class selector

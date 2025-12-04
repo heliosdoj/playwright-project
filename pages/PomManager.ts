@@ -1,10 +1,10 @@
 /**
  * PomManager - Page Object Manager
- * 
+ *
  * This class implements the Factory pattern for creating and managing
  * page object instances. It provides lazy-loaded, cached access to
  * all page objects in the framework.
- * 
+ *
  * TypeScript Features Demonstrated:
  * - Interface implementation with return type covariance
  * - Nullable properties with strict null checks
@@ -12,27 +12,26 @@
  * - Readonly properties for immutability
  * - Private fields with underscore convention
  */
-
 import type { Page } from '@playwright/test';
+
+import type { ICheckboxesPage, ILoginPage, IPomManager, ISecurePage } from '../types/pages.types';
+import CheckboxesPage from './CheckboxesPage';
 import LoginPage from './LoginPage';
 import SecurePage from './SecurePage';
-import CheckboxesPage from './CheckboxesPage';
-import type { ILoginPage, ISecurePage, ICheckboxesPage, IPomManager } from '../types/pages.types';
-
 
 /**
  * Page Object Manager - Factory for creating and caching page objects
- * 
+ *
  * This class follows the Singleton-per-test pattern: each test gets its own
  * PomManager instance which then manages page object creation and caching.
- * 
+ *
  * Benefits of this approach:
  * - **Lazy Loading**: Page objects are only created when first requested
  * - **Caching**: Subsequent requests return the same instance (saves memory)
  * - **Centralized Creation**: All page objects are created through one place
  * - **Type Safety**: Getter methods return properly typed interfaces
- * 
- * 
+ *
+ *
  * @example
  * ```typescript
  * // In a test file
@@ -72,7 +71,7 @@ export default class PomManager implements IPomManager {
 
   /**
    * Create a new PomManager instance
-   * 
+   *
    * @param page - The Playwright Page object to pass to all page objects
    */
   constructor(page: Page) {
@@ -81,14 +80,14 @@ export default class PomManager implements IPomManager {
 
   /**
    * Get the LoginPage instance.
-   * 
+   *
    * Creates a new LoginPage on first call and caches it for subsequent calls.
    * This lazy-loading pattern helps with:
    * - Memory efficiency (only create what's needed)
    * - Faster test startup (don't create unused page objects)
-   * 
+   *
    * @returns The LoginPage instance (type-safe, never null)
-   * 
+   *
    * @example
    * ```typescript
    * const loginPage = pomManager.getLoginPage();
@@ -106,9 +105,9 @@ export default class PomManager implements IPomManager {
 
   /**
    * Get the SecurePage instance.
-   * 
+   *
    * Creates a new SecurePage on first call and caches it for subsequent calls.
-   * 
+   *
    * @returns The SecurePage instance (type-safe, never null)
    */
   getSecurePage(): ISecurePage {
@@ -120,9 +119,9 @@ export default class PomManager implements IPomManager {
 
   /**
    * Get the CheckboxesPage instance.
-   * 
+   *
    * Creates a new CheckboxesPage on first call and caches it for subsequent calls.
-   * 
+   *
    * @returns The CheckboxesPage instance (type-safe, never null)
    */
   getCheckboxesPage(): ICheckboxesPage {

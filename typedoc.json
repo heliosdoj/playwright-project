@@ -22,5 +22,5 @@
   "categorizeByGroup": true,
   "sort": ["source-order"],
   "theme": "default",
-  "highlightLanguages": ["mermaid", "ts", "bash", "typescript", "json"]
+  "highlightLanguages": ["mermaid", "ts", "bash", "typescript", "json", "javascript", "yaml"]
 }

@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { type Page, expect, test } from '@playwright/test';
 
 /**
  * @fileoverview Comprehensive article CRUD test demonstrating test.step() for
@@ -20,7 +20,7 @@ test('Create Article on Conduit', async ({ page }: { page: Page }) => {
     await page.getByRole('textbox', { name: 'Email' }).fill('tester25@test.com');
     await page.getByRole('textbox', { name: 'Password' }).fill('Testing123');
     await page.getByRole('button', { name: 'Sign in' }).click();
-    
+
     // Wait for login to complete
     await expect(page.getByRole('link', { name: 'tester25' })).toBeVisible();
   });
@@ -28,8 +28,12 @@ test('Create Article on Conduit', async ({ page }: { page: Page }) => {
   await test.step('Create a new article', async () => {
     await page.getByText('New Article').click();
     await page.getByRole('textbox', { name: 'Article Title' }).fill(articleTitle);
-    await page.getByRole('textbox', { name: "What's this article about?" }).fill('This is a test article');
-    await page.getByRole('textbox', { name: 'Write your article (in markdown)' }).fill('## Test Content\n\nThis is test content.');
+    await page
+      .getByRole('textbox', { name: "What's this article about?" })
+      .fill('This is a test article');
+    await page
+      .getByRole('textbox', { name: 'Write your article (in markdown)' })
+      .fill('## Test Content\n\nThis is test content.');
     await page.getByRole('button', { name: 'Publish Article' }).click();
   });
 
@@ -49,7 +53,7 @@ test('Create Article on Conduit', async ({ page }: { page: Page }) => {
 
   await test.step('Delete the article', async () => {
     await page.getByRole('button', { name: 'Delete Article' }).click();
-    
+
     // Verify we're back on the home page or profile page
     await expect(page.getByText('Global Feed')).toBeVisible();
   });

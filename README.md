@@ -2,7 +2,7 @@
 
 A comprehensive Playwright testing project using pnpm as the package manager for improved performance and faster test execution. This project demonstrates end-to-end testing with Playwright, featuring HTML and Allure reporting capabilities.
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
@@ -19,8 +19,56 @@ A comprehensive Playwright testing project using pnpm as the package manager for
 - [Troubleshooting](#troubleshooting)
 - [Performance Tips](#performance-tips)
 - [Migration Notes](#migration-notes)
+- [TypeScript Development Setup](#typescript-development-setup)
 - [Contributing](#contributing)
 - [Additional Resources](#additional-resources)
+
+## TypeScript Development Setup
+
+This project is a TypeScript project that provides comprehensive end-to-end testing capabilities using Playwright. The TypeScript setup includes all necessary dependencies for development, testing, and code quality.
+
+### Complete Installation
+
+To install all TypeScript dependencies, simply run:
+
+```bash
+pnpm install
+```
+
+This single command installs everything needed for TypeScript development, including:
+
+- **TypeScript Core**: `typescript` for TypeScript compilation and type checking
+- **TypeScript Runtime**: `ts-node` for direct TypeScript execution
+- **Documentation**: `typedoc` for generating TypeScript documentation
+- **Path Resolution**: `tsconfig-paths` for TypeScript path alias resolution
+- **Debugging**: `source-map-support` for better stack traces
+- **Code Quality**: `eslint` and related packages for linting
+- **Formatting**: `prettier` and related packages for code formatting
+- **Git Hooks**: `husky` for Git hooks management
+- **Lint Staging**: `lint-staged` for running linters on staged files
+- **Cleanup**: `rimraf` for cross-platform file deletion
+- **Concurrent Execution**: `concurrently` for running multiple commands simultaneously
+
+### What Gets Installed
+
+The `pnpm install` command automatically installs all dependencies listed in the project's `package.json` file, including both production and development dependencies. This ensures you have all the necessary tools for TypeScript development, testing, and code quality management.
+
+### Running the Installation
+
+1. **Navigate to the project directory**:
+   ```bash
+   cd LearnPlaywright
+   ```
+
+2. **Run the installation command**:
+   ```bash
+   pnpm install
+   ```
+
+3. **Verify installation** by checking that all dependencies are properly installed:
+   ```bash
+   pnpm list
+   ```
 
 ## Prerequisites
 
@@ -71,7 +119,7 @@ pnpm allure:gen
 pnpm allure:open
 ```
 
-> **💡 Tip**: If Playwright's CLI suggests using `npx` commands in its output messages, replace `npx` with `pnpm exec` since this project uses pnpm instead of npm.
+> **Tip**: If Playwright's CLI suggests using `npx` commands in its output messages, replace `npx` with `pnpm exec` since this project uses pnpm instead of npm.
 >
 > **Key Command Formats**:
 > - `pnpm test` - Run all tests via npm script (uses config)
@@ -86,13 +134,13 @@ pnpm allure:open
 
 ```
 LearnPlaywright/
-├── 📄 package.json              # Project configuration and npm scripts
-├── 🔒 pnpm-lock.yaml            # pnpm lock file
-├── ⚙️  playwright.config.js      # Playwright test configuration
-├── 📝 how_to.md                 # Detailed migration guide (npm/bun → pnpm)
-├── 📖 README.md                 # This file
+├── package.json              # Project configuration and npm scripts
+├── pnpm-lock.yaml            # pnpm lock file
+├── playwright.config.js      # Playwright test configuration
+├── how_to.md                 # Detailed migration guide (npm/bun → pnpm)
+├── README.md                 # This file
 │
-├── 📁 tests/                    # Test files directory
+├── tests/                    # Test files directory
 │   ├── assertions.spec.js       # Assertion examples and patterns
 │   ├── ccwlogin.spec.js         # CCW application login tests
 │   ├── codegen.spec.js          # Code generation tests
@@ -104,13 +152,13 @@ LearnPlaywright/
 │   ├── selectors.spec.js        # CSS/XPath selector tests
 │   └── solution.js              # Solution examples
 │
-├── 📁 tests-examples/           # Playwright example tests
+├── tests-examples/           # Playwright example tests
 │   └── demo-todo-app.spec.js    # Demo todo application tests
 │
-├── 📁 allure-results/           # Raw test results (JSON)
-├── 📁 allure-report/            # Generated Allure HTML reports
-├── 📁 playwright-report/        # Playwright HTML reports
-└── 📁 test-results/             # Test artifacts (screenshots, videos, traces)
+├── allure-results/           # Raw test results (JSON)
+├── allure-report/            # Generated Allure HTML reports
+├── playwright-report/        # Playwright HTML reports
+└── test-results/             # Test artifacts (screenshots, videos, traces)
 ```
 
 [↑ Back to Top](#learn-playwright-with-pnpm-)
@@ -171,7 +219,7 @@ pnpm playwright test --grep "Create a new article"
 
 ### Running Tests with pnpm (All Options)
 
-> **💡 Tip**: Since `testDir: './tests'` is configured, just use filenames without the `tests/` prefix!
+> **Tip**: Since `testDir: './tests'` is configured, just use filenames without the `tests/` prefix!
 
 **Basic execution:**
 ```bash
@@ -369,7 +417,7 @@ pnpm run test --project=chromium --project=firefox
 
 ### npm Script Shortcuts
 
-For convenience, use these npm scripts defined in [`package.json`](package.json:5):
+For convenience, use these npm scripts defined in `package.json`:
 
 ```bash
 # Run all tests
@@ -900,7 +948,7 @@ test('capture multiple elements', async ({ page }) => {
 
 ## Reporting
 
-> **⚠️ Important Note About CLI Messages**: Playwright's CLI will output messages suggesting `npx playwright show-report`. Since this project uses pnpm, **always use `pnpm exec` instead of `npx`**. The commands work identically, and `pnpm exec` aligns with this project's setup.
+> **Important Note About CLI Messages**: Playwright's CLI will output messages suggesting `npx playwright show-report`. Since this project uses pnpm, **always use `pnpm exec` instead of `npx`**. The commands work identically, and `pnpm exec` aligns with this project's setup.
 
 ### HTML Reports
 
@@ -919,7 +967,7 @@ To open last HTML report run:
   npx playwright show-report
 ```
 
-**⚠️ Use `pnpm exec` instead:**
+**Use `pnpm exec` instead:**
 ```bash
 pnpm exec playwright show-report
 ```
@@ -973,14 +1021,14 @@ pnpm allure:gen
 
 #### Allure Report Features
 
-- **📊 Test History**: Track test results over multiple runs
-- **📈 Trends**: Visualize test stability and performance metrics
-- **🏷️  Categories**: Group tests by severity, features, or custom tags
-- **📎 Attachments**: View screenshots, videos, logs, and traces
-- **🌳 Suites**: Hierarchical test organization and navigation
-- **⏱️  Timeline**: See test execution timeline and parallelization
-- **🔄 Retries**: Track flaky tests and retry patterns
-- **📉 Duration**: Analyze test execution times
+- **Test History**: Track test results over multiple runs
+- **Trends**: Visualize test stability and performance metrics
+- **Categories**: Group tests by severity, features, or custom tags
+- **Attachments**: View screenshots, videos, logs, and traces
+- **Suites**: Hierarchical test organization and navigation
+- **Timeline**: See test execution timeline and parallelization
+- **Retries**: Track flaky tests and retry patterns
+- **Duration**: Analyze test execution times
 
 #### Stopping the Allure Server
 
@@ -1015,7 +1063,7 @@ kill %<job_number>      # Kill specific job
 
 ## pnpm Commands Reference
 
-> **💡 CLI Message Translation**: When Playwright CLI suggests `npx` commands, use `pnpm exec`:
+> **CLI Message Translation**: When Playwright CLI suggests `npx` commands, use `pnpm exec`:
 > - Playwright says: `npx playwright show-report` → You use: `pnpm exec playwright show-report`
 > - Playwright says: `npx playwright test` → You use: `pnpm exec playwright test`
 > - Playwright says: `npx playwright test --ui` → You use: `pnpm exec playwright test --ui`
@@ -1107,18 +1155,18 @@ pnpm exec playwright install chromium
 ### Key Differences: `pnpm` vs `pnpm run` vs `pnpm exec`
 
 - **`pnpm install`**: Manages package dependencies
-- **`pnpm <script>`**: Runs npm scripts from [`package.json`](package.json:1) (e.g., `pnpm test`)
+- **`pnpm <script>`**: Runs npm scripts from `package.json` (e.g., `pnpm test`)
 - **`pnpm run <script> [args]`**: Runs npm scripts with arguments (e.g., `pnpm run test example.spec.js`)
 - **`pnpm exec <command>`**: Executes locally installed packages directly
 - **`npx <command>`**: npm's package executor (deprecated for this project)
 
-⚠️ **Important Notes:**
-- **For running all tests**: `pnpm test` ✅ (shortest)
-- **For individual files**: `pnpm run test example.spec.js` ✅ (recommended - short and convenient)
-- **For UI mode**: `pnpm run test:ui` ✅ (easiest)
-- **For direct commands**: `pnpm exec playwright test` ✅ (when you need full control)
-- **For codegen/tools**: `pnpm exec playwright codegen` ✅
-- **For reports**: `pnpm exec playwright show-report` ✅
+**Important Notes:**
+- **For running all tests**: `pnpm test` (shortest)
+- **For individual files**: `pnpm run test example.spec.js` (recommended - short and convenient)
+- **For UI mode**: `pnpm run test:ui` (easiest)
+- **For direct commands**: `pnpm exec playwright test` (when you need full control)
+- **For codegen/tools**: `pnpm exec playwright codegen`
+- **For reports**: `pnpm exec playwright show-report`
 - When Playwright CLI suggests `npx`, replace with `pnpm exec`
 
 **Why `pnpm run test <file>` is recommended:**
@@ -1131,20 +1179,20 @@ pnpm exec playwright install chromium
 
 ## Configuration
 
-Configuration is managed in [`playwright.config.js`](playwright.config.js:1).
+Configuration is managed in `playwright.config.js`.
 
 ### Current Test Suite
 
 The project includes the following test files:
-- [`assertions.spec.js`](tests/assertions.spec.js:1) - Comprehensive assertion examples and patterns
-- [`ccwlogin.spec.js`](tests/ccwlogin.spec.js:1) - CCW application login and navigation tests
-- [`codegen.spec.js`](tests/codegen.spec.js:1) - Code generation examples
-- [`create-article.spec.js`](tests/create-article.spec.js:1) - End-to-end article creation workflow
-- [`example.spec.js`](tests/example.spec.js:1) - Basic example test suite
-- [`hooksAndPage.spec.js`](tests/hooksAndPage.spec.js:1) - Test hooks and page fixture demonstrations
-- [`login.spec.js`](tests/login.spec.js:1) - Login functionality tests
-- [`many.spec.js`](tests/many.spec.js:1) - Performance testing with 20 parallel tests
-- [`selectors.spec.js`](tests/selectors.spec.js:1) - CSS and XPath selector examples
+- `assertions.spec.js` - Comprehensive assertion examples and patterns
+- `ccwlogin.spec.js` - CCW application login and navigation tests
+- `codegen.spec.js` - Code generation examples
+- `create-article.spec.js` - End-to-end article creation workflow
+- `example.spec.js` - Basic example test suite
+- `hooksAndPage.spec.js` - Test hooks and page fixture demonstrations
+- `login.spec.js` - Login functionality tests
+- `many.spec.js` - Performance testing with 20 parallel tests
+- `selectors.spec.js` - CSS and XPath selector examples
 
 ### Key Settings
 
@@ -1179,8 +1227,8 @@ The project includes the following test files:
 
 **Important**: Since `testDir: './tests'`, you can run tests using just the filename:
 ```bash
-pnpm playwright test example.spec.js  # ✅ Correct
-pnpm playwright test tests/example.spec.js  # ❌ Unnecessary
+pnpm playwright test example.spec.js  # Correct
+pnpm playwright test tests/example.spec.js  # Unnecessary
 ```
 
 **Your System Specs:**
@@ -1193,9 +1241,9 @@ pnpm playwright test tests/example.spec.js  # ❌ Unnecessary
 ### Available Projects
 
 Currently configured browsers:
-- ✅ **Chromium** (enabled)
-- ⬜ Firefox (commented out)
-- ⬜ WebKit (commented out)
+- Chromium (enabled)
+- Firefox (commented out)
+- WebKit (commented out)
 
 ### Customizing Configuration
 
@@ -1243,11 +1291,11 @@ Your system has **14 cores / 20 logical processors and 32GB RAM** - excellent fo
 - **20 workers**: Maximum (100% CPU - use for massive suites)
 
 **Why Auto-Scaling (undefined) is BEST:**
-- ✅ **Automatically adjusts** based on system load
-- ✅ **Scales with test suite growth** - no manual changes needed
-- ✅ **Optimal balance** - leaves headroom for browser processes
-- ✅ **Prevents system overload** - adapts to available resources
-- ✅ **Best for 300+ tests** - Playwright knows the optimal worker count
+- Automatically adjusts based on system load
+- Scales with test suite growth - no manual changes needed
+- Optimal balance - leaves headroom for browser processes
+- Prevents system overload - adapts to available resources
+- Best for 300+ tests - Playwright knows the optimal worker count
 
 **Performance Scaling with Auto-Workers:**
 - 7 tests: ~16-17s (uses 7 workers)
@@ -1624,12 +1672,12 @@ pnpm playwright test create-article.spec.js
 ```
 
 **4. Current Optimizations Already Enabled:**
-- ✅ 20 workers (100% CPU utilization)
-- ✅ NVIDIA T600 GPU acceleration enabled
-- ✅ Aggressive timeouts (30s test, 8s assertions)
-- ✅ Parallel execution enabled
-- ✅ 6GB Node.js heap size
-- ✅ All Chrome performance flags enabled
+- 20 workers (100% CPU utilization)
+- NVIDIA T600 GPU acceleration enabled
+- Aggressive timeouts (30s test, 8s assertions)
+- Parallel execution enabled
+- 6GB Node.js heap size
+- All Chrome performance flags enabled
 
 **5. Expected Performance for Your 300+ Test Suite:**
 - **With 20 workers**: ~6-8 minutes for full suite
@@ -1727,26 +1775,26 @@ This project has been successfully migrated from npm/bun to pnpm due to stabilit
 
 ### What Changed
 
-- ✅ **Package Manager**: npm/bun → pnpm
-- ✅ **Scripts**: Updated to use `pnpm exec` instead of `npx`
-- ✅ **Lock File**: `package-lock.json`/`bun.lockb` → `pnpm-lock.yaml`
-- ✅ **Performance**: Faster installation and efficient disk usage
+- Package Manager: npm/bun → pnpm
+- Scripts: Updated to use `pnpm exec` instead of `npx`
+- Lock File: `package-lock.json`/`bun.lockb` → `pnpm-lock.yaml`
+- Performance: Faster installation and efficient disk usage
 
 ### What Stayed the Same
 
-- ✅ All Playwright test code (no changes needed)
-- ✅ Configuration files ([`playwright.config.js`](playwright.config.js:1))
-- ✅ Test file structure and organization
-- ✅ Allure reporting integration
-- ✅ Browser compatibility
+- All Playwright test code (no changes needed)
+- Configuration files (`playwright.config.js`)
+- Test file structure and organization
+- Allure reporting integration
+- Browser compatibility
 
 ### Benefits of pnpm
 
-1. **⚡ Speed**: Faster package installation and efficient disk usage
-2. **🔄 Compatibility**: Works with all npm packages
-3. **💾 Disk Efficiency**: Uses hard links to save disk space
-4. **🚀 Strict**: Better dependency management with strict node_modules structure
-5. **📦 Better Caching**: Content-addressable storage for dependencies
+1. **Speed**: Faster package installation and efficient disk usage
+2. **Compatibility**: Works with all npm packages
+3. **Disk Efficiency**: Uses hard links to save disk space
+4. **Strict**: Better dependency management with strict node_modules structure
+5. **Better Caching**: Content-addressable storage for dependencies
 
 For detailed migration information, see [`how_to.md`](how_to.md).
 
@@ -1754,7 +1802,7 @@ For detailed migration information, see [`how_to.md`](how_to.md).
 
 ## Contributing
 
-1. Write tests in the [`tests/`](tests/) directory
+1. Write tests in the `tests/` directory
 2. Follow naming convention: `*.spec.js` or `*.spec.ts`
 3. Use descriptive test names with `describe` blocks
 4. Add appropriate test tags for categorization
@@ -1785,13 +1833,13 @@ test.describe('Feature Name', () => {
 
 ## Additional Resources
 
-- 📘 [Playwright Documentation](https://playwright.dev/)
-- 📦 [pnpm Documentation](https://pnpm.io/)
-- 📊 [Allure Documentation](https://docs.qameta.io/allure/)
-- 🧪 [Playwright Test Runner](https://playwright.dev/docs/test-runner)
-- 🎭 [Playwright API Reference](https://playwright.dev/docs/api/class-playwright)
-- 🔍 [Playwright Selectors](https://playwright.dev/docs/selectors)
-- 📸 [Visual Comparisons](https://playwright.dev/docs/test-snapshots)
+- [Playwright Documentation](https://playwright.dev/)
+- [pnpm Documentation](https://pnpm.io/)
+- [Allure Documentation](https://docs.qameta.io/allure/)
+- [Playwright Test Runner](https://playwright.dev/docs/test-runner)
+- [Playwright API Reference](https://playwright.dev/docs/api/class-playwright)
+- [Playwright Locators](https://playwright.dev/docs/locators)
+- [Visual Comparisons](https://playwright.dev/docs/test-snapshots)
 
 ---
 
@@ -1799,6 +1847,6 @@ test.describe('Feature Name', () => {
 
 ---
 
-**Project Maintained with ❤️ using pnpm + Playwright**
+**Project Maintained using pnpm + Playwright**
 
-For detailed pnpm migration guide and advanced usage, see [`how_to.md`](how_to.md:1).
+For detailed pnpm migration guide and advanced usage, see `how_to.md`.

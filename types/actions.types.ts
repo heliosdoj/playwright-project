@@ -2,7 +2,6 @@
  * Type definitions for CommonActions utility class
  * These types provide strong typing for all browser action methods
  */
-
 import type { Locator } from '@playwright/test';
 
 // ============================================================================

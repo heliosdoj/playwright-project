@@ -1,10 +1,10 @@
-import { test, type Page } from '@playwright/test';
+import { type Page, test } from '@playwright/test';
 
 /**
  * @fileoverview Parallel execution stress test generating 500 dummy tests.
  * This file is used to validate the parallel worker configuration and
  * ensure the test framework can handle multiple concurrent tests efficiently.
- * 
+ *
  * Each test navigates to example.com and waits briefly, simulating a minimal test load.
  * This is useful for benchmarking test execution time with different worker configurations.
  */

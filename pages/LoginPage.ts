@@ -1,24 +1,24 @@
 /**
  * LoginPage - Page Object for the Login page
- * 
+ *
  * This class encapsulates all interactions with the login form,
  * including navigation, credential entry, and message validation.
- * 
+ *
  * TypeScript Features Demonstrated:
  * - Interface implementation (ILoginPage)
  * - Readonly properties for immutability
  * - Strongly typed method parameters and returns
  * - Promise-based async methods with proper return types
  */
+import { type Locator, type Page, expect } from '@playwright/test';
 
-import { expect, type Page, type Locator } from '@playwright/test';
-import CommonActions from '../utils/CommonActions';
 import type { ILoginPage } from '../types/pages.types';
+import CommonActions from '../utils/CommonActions';
 
 /**
  * Page Object representing the Login page at /login
- * 
- * 
+ *
+ *
  * @example
  * ```typescript
  * const loginPage = new LoginPage(page);
@@ -29,25 +29,25 @@ import type { ILoginPage } from '../types/pages.types';
 export default class LoginPage implements ILoginPage {
   /** Playwright Page instance for browser interaction */
   public readonly page: Page;
-  
+
   /** CommonActions utility instance for reusable browser actions */
   public readonly actions: CommonActions;
-  
+
   /** Locator for the username input field */
   public readonly usernameInput: Locator;
-  
+
   /** Locator for the password input field */
   public readonly passwordInput: Locator;
-  
+
   /** Locator for the login submit button */
   public readonly loginButton: Locator;
-  
+
   /** Locator for error/flash messages */
   public readonly errorMessage: Locator;
 
   /**
    * Create a new LoginPage instance
-   * 
+   *
    * @param page - The Playwright Page object to interact with
    */
   constructor(page: Page) {
@@ -69,7 +69,7 @@ export default class LoginPage implements ILoginPage {
 
   /**
    * Navigate to the login page.
-   * 
+   *
    * Uses the baseURL from playwright.config.ts, so only the
    * relative path is needed.
    */
@@ -79,15 +79,15 @@ export default class LoginPage implements ILoginPage {
 
   /**
    * Perform a login with the provided credentials.
-   * 
+   *
    * This method:
    * 1. Fills the username field
    * 2. Fills the password field
    * 3. Clicks the submit button
-   * 
+   *
    * @param username - The username to enter
    * @param password - The password to enter
-   * 
+   *
    * @example
    * ```typescript
    * await loginPage.login('tomsmith', 'SuperSecretPassword!');
@@ -105,7 +105,7 @@ export default class LoginPage implements ILoginPage {
 
   /**
    * Get the text content of the error/flash message element.
-   * 
+   *
    * @returns The trimmed message text, or undefined if not found
    */
   async getErrorMessage(): Promise<string | undefined> {
@@ -115,10 +115,10 @@ export default class LoginPage implements ILoginPage {
 
   /**
    * Assert that the error message contains the expected text.
-   * 
+   *
    * This method fetches the current message and uses Playwright's
    * expect to verify it contains the expected substring.
-   * 
+   *
    * @param expectedMessage - The text expected to be in the error message
    * @throws {Error} If the message doesn't contain the expected text
    */
@@ -129,10 +129,10 @@ export default class LoginPage implements ILoginPage {
 
   /**
    * Assert that the success message contains the expected text.
-   * 
+   *
    * Note: In this demo app, success messages appear in the same
    * #flash element as error messages.
-   * 
+   *
    * @param expectedMessage - The text expected to be in the success message
    * @throws {Error} If the message doesn't contain the expected text
    */

@@ -2,8 +2,7 @@
  * Type definitions for Page Object Model classes
  * These interfaces define the contract for all page objects in the framework
  */
-
-import type { Page, Locator } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 // ============================================================================
 // Base Page Interface
