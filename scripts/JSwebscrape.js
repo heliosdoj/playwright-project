@@ -41,7 +41,7 @@ import { chromium } from '@playwright/test';
   // Extract column headers
   const columnHeadersSelector = 'table#customers th';
   const columnHeaders = await page.$$eval(columnHeadersSelector, headers =>
-    headers.map(header => header.innerText.trim())
+    headers.map(header => header.textContent?.trim() || '')
   );
 
   if (columnHeaders.length === 0) {
@@ -77,7 +77,7 @@ import { chromium } from '@playwright/test';
     rows.map(r => {
       const [company, contact, country] = r.querySelectorAll('td');
       return company && contact && country
-        ? { company: company.innerText, contact: contact.innerText, country: country.innerText }
+        ? { company: company.textContent?.trim() || '', contact: contact.textContent?.trim() || '', country: country.textContent?.trim() || '' }
         : null;
     }).filter(Boolean)
   );
