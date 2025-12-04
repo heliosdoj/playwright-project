@@ -1,6 +1,6 @@
 {
   "entryPoints": [
-    "tests/",
+    "tests/",  // I might take this out (approx 300+ tests coming..)
     "utils/",
     "pages/",
     "types/"
@@ -22,5 +22,5 @@
   "categorizeByGroup": true,
   "sort": ["source-order"],
   "theme": "default",
-  "highlightLanguages": ["mermaid", "ts", "bash", "typescript", "json", "javascript", "yaml"]
+  "highlightLanguages": ["mermaid", "ts", "bash", "typescript", "json", "javascript", "yaml"]  // doubt team uses mermaid - maybe delete
 }

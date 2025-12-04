@@ -6,7 +6,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",              
 
-    // === JS → TS migration mode (safe now, easy to remove later) ===
+    // === JS → TS migration mode (safe now, easy to remove later @ Phase II) ===
     "allowJs": true,
     "checkJs": true,
 
@@ -23,15 +23,15 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
 
-    // === Output settings (perfect for Playwright) ===
+    // === Output settings ===
     "outDir": "./dist",
     "rootDir": ".",
-    "declaration": false,                       // ← change to false (no one uses .d.ts in Playwright tests)
-    "declarationMap": false,                    // ← also disable
-    "sourceMap": true,                          // keep true for debugging
-    "removeComments": true,                     // ← add this for cleaner output
+    "declaration": false,                       
+    "declarationMap": false,                    
+    "sourceMap": true,                          // gotta debug 
+    "removeComments": true,                     // Need this otherwise I will get confused with Phase II, III
 
-    // === Import / path aliases (excellent) ===
+    // === Import / path aliases ===
     "baseUrl": ".",
     "paths": {
       "@pages/*": ["pages/*"],
@@ -40,25 +40,25 @@
       "@tests/*": ["tests/*"]
     },
 
-    // === Modern interop (perfect) ===
+    // === Modern interop ===
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
 
     // === Performance & safety ===
-    "skipLibCheck": true,                       // must-have for large projects
-    "forceConsistentCasingInFileNames": true,  // ← add this (catches Windows/macOS bugs)
-    "verbatimModuleSyntax": true,               // ← CHANGE TO true (2025 best practice)
+    "skipLibCheck": true,                       // must-have for this large project (Phase I only - 12/4/2025 )
+    "forceConsistentCasingInFileNames": true,  // does team use MacOS? (catches Windows/macOS bugs)
+    "verbatimModuleSyntax": true,              
 
     // === Types ===
-    "types": ["node", "@playwright/test"]       // ← add @playwright/test
+    "types": ["node", "@playwright/test"]       
   },
 
-  // === Include / exclude (perfect for Playwright) ===
+  // === Include / exclude ===
   "include": [
     "**/*.ts",
-    "**/*.js",                                  // ← add this line so .js files are checked too
+    "**/*.js",                                  //  .js files are checked too (if QA team forks over code for own project)
     "playwright.config.ts"
   ],
   "exclude": [

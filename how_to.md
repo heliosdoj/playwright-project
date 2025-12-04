@@ -8,7 +8,12 @@ This project has been successfully migrated from npm/bun to pnpm due to stabilit
 - CPU: 14 cores / 20 logical processors (threads)
 - RAM: 32GB
 - GPU: NVIDIA T600 Laptop GPU (4GB VRAM)
-- Optimized Workers: 10 (50% of threads for best balance)
+- Optimized Workers: 10 (50% of threads for best balance) (QA team can adjust this to 75% but will get heated laptop)
+- Disk Space: 100GB+ (for browsers and dependencies)
+- Node.js: v20.17.0 (LTS)
+
+** Recommended for QA team to use 75% of threads (15 workers) for faster test execution** // do not overclock BIOS CPU pinnings.
+** Leverage the power of your machine! including your GPU for faster test execution!!**
 
 ## Quick Start
 
@@ -32,11 +37,12 @@ pnpm allure:open         # Open Allure report
 
 ### What Changed
 
-1. **Package Manager**: npm/bun → pnpm
+1. **Package Manager**: npm/bun → pnpm  (bun is still buggy with playwright but it is 200% faster than pnpm)
 2. **Scripts**: Updated all scripts to use `pnpm exec` instead of `npx`
-3. **Lock File**: `package-lock.json`/`bun.lockb` → `pnpm-lock.yaml`
+3. **Lock File**: `package-lock.json` → `pnpm-lock.yaml`
 4. **Worker Configuration**: Dynamic auto-scaling (uses ~50% of CPU cores, ~10 workers on 20-thread system)
 5. **Performance**: Efficient disk usage with content-addressable storage
+6. **Scalability**: Offload test execution to VDI without performance degradation (RedhatOS)
 
 ### Performance Improvements
 
@@ -49,10 +55,10 @@ pnpm allure:open         # Open Allure report
 
 - All Playwright test code (no changes needed)
 - Test file structure and organization
-- Configuration files (playwright.config.js)
+- Configuration files (playwright.config.ts)
 - Allure reporting integration
 - Browser compatibility
-- CI/CD workflows (just swap npm for bun commands)
+- CI/CD workflows (just swap npm for pnpm commands)
 
 ## Important: npx vs pnpm exec
 
@@ -69,7 +75,8 @@ To open last HTML report run:
 
 **What you should do:**
 ```bash
-pnpm exec playwright show-report
+pnpm exec playwright show-report OR
+pnpm report (see package.json)
 ```
 
 **Why?** This project uses pnpm instead of npm. All `npx` commands work with `pnpm exec` - they provide better caching and align with the project setup.
@@ -190,13 +197,13 @@ pnpm allure:open
 - **Workers**: `Math.min(Math.floor(os.cpus().length * 0.5), 15)`
 - **Result**: 10 workers (50% of 20 threads, capped at 15 max)
 - **Rationale**: Automatically adjusts based on CPU cores, leaves headroom for browser processes
-- **Location**: [`playwright.config.js`](playwright.config.js:30)
+- **Location**: [`playwright.config.ts`](playwright.config.ts:24)
 
 ### Configuration Options
 
 ```javascript
-// In playwright.config.js
-workers: Math.min(Math.floor(os.cpus().length * 0.5), 15),  // Current - dynamic (RECOMMENDED)
+// In playwright.config.ts
+workers: Math.min(Math.floor(os.cpus().length * 0.5), 15),  // Current - dynamic (RECOMMENDED for most systems; adjust 0.5 multiplier as needed)
 workers: 20,         // Maximum - uses all threads
 workers: 15,         // Aggressive - high parallelism (current cap)
 workers: 10,         // Manual setting (same as dynamic result on your system)
@@ -226,9 +233,9 @@ With auto-scaling (~10 workers) on your system:
 
 **Current Test Suite:**
 - 9 test files with various test scenarios
-- Includes performance tests ([`many.spec.js`](tests/many.spec.js:1) with 20 parallel tests)
-- End-to-end workflows ([`create-article.spec.js`](tests/create-article.spec.js:1))
-- Assertion examples ([`assertions.spec.js`](tests/assertions.spec.js:1))
+- Includes performance tests ([`many.spec.ts`](tests/many.spec.ts:1) with 500 parallel tests)
+- End-to-end workflows ([`create-article.spec.ts`](tests/create-article.spec.ts:1))
+- Assertion examples ([`assertions.spec.ts`](tests/assertions.spec.ts:1))
 
 ## Key Differences: pnpm vs npm
 
@@ -305,10 +312,10 @@ pnpm allure:open
 # 1. Make changes to test files
 
 # 2. Run affected tests
-pnpm exec playwright test tests/modified-test.spec.js
+pnpm exec playwright test tests/modified-test.spec.ts
 
 # 3. Run with browser to verify
-pnpm exec playwright test tests/modified-test.spec.js --headed
+pnpm exec playwright test tests/modified-test.spec.ts --headed
 
 # 4. Run full suite before commit
 pnpm test
@@ -437,6 +444,26 @@ kill -9 <PID>
 # Click trash icon on terminal tab
 ```
 
+**Finding the Allure Server Port:**
+
+To identify which port the Allure server is using, you can check:
+
+1. **Allure configuration files** - Look for port settings in Allure configuration files
+2. **Terminal output** - When starting Allure, the port is typically displayed in the console output
+3. **Using system commands** - Find processes listening on ports:
+
+```bash
+# Find all processes listening on ports
+lsof -i -P -n | grep LISTEN
+
+# Find specific Allure process and port
+ps aux | grep allure
+lsof -i -P -n | grep allure
+
+# Find process using a specific port (replace 12345 with port number)
+lsof -i :12345
+```
+
 **Alternative approach:**
 ```bash
 # Generate report without server
@@ -480,5 +507,3 @@ With auto-scaling workers (~10 on your 20-thread system):
 - Main project README: [`README.md`](README.md)
 
 ---
-
-**Migration completed successfully!** Your Playwright tests now run reliably with pnpm, providing better stability and efficient resource management while maintaining full compatibility with the existing test suite.
