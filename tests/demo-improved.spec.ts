@@ -4,7 +4,12 @@ import { type Page, expect, test } from '@playwright/test';
  * TodoMVC E2E Test Suite
  *
  * This test suite validates the functionality of a TodoMVC application
- * using Playwright for end-to-end testing.
+ * using Playwright for end-to-end testing. Compare demo-todo-app.spec.ts
+ * Proper TypeScript typing throughout
+ * Comprehensive documentation
+ * Clean code organization
+ * Strong adherence to Playwright testing patterns
+ * Better use of modern TypeScript features
  */
 
 // Navigate to the TodoMVC demo app before each test

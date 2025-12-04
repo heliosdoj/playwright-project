@@ -1,3 +1,8 @@
+// This is a demo test file for the todo app but it is not optimized for TS.
+// Uses outdated patterns like @ts-ignore
+// Less comprehensive typing
+// More basic code organization
+
 import { test, expect } from '@playwright/test';
 
 const TODO_ITEMS = [
