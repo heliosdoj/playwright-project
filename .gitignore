@@ -49,6 +49,9 @@ pnpm-debug.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
+*.mkv
+*.mp4
+*.mp3
 
 # Coverage
 coverage/
