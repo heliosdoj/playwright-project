@@ -58,7 +58,7 @@
   // === Include / exclude ===
   "include": [
     "**/*.ts",
-    "**/*.js",                                  //  .js files are checked too (if QA team forks over code for own project)
+    "**/*.js",               //  .js files are checked too (if QA team forks over code for own project)
     "playwright.config.ts"
   ],
   "exclude": [
