@@ -17,6 +17,7 @@ scripts/temp/
 playwright/.local-browsers/
 playwright-report/
 test-results/
+docs/
 
 # Allure
 allure-results/

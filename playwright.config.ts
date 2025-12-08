@@ -17,7 +17,7 @@ import os from 'os';
  * Uses 75% of available CPU cores, capped at 20 for stability.
  * README file recommends 50% but this provides better parallelization
  * for modern multi-core systems - Might run these tests in VM with 16 cores
- * DOJ.
+ * and 32GB RAM - VDI DOJ - Submit TAC.
  */
 const calculateWorkers = (): number => {
   const cpuCount = os.cpus().length;
