@@ -25,7 +25,7 @@
     "typecheck:watch": "tsc --noEmit --watch",
     "build": "tsc",
     "dev": "tsc --watch",
-    "prepare": "husky install",
+    "prepare": "husky",
     "generate:docs": "typedoc --options typedoc.json",
     "script:run": "bash -c 'node scripts/$1.js' --",
     "script:ts": "bash -c 'npx ts-node scripts/$1.ts' --",
