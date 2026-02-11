@@ -2,15 +2,15 @@
 
 ## Overview
 
-This project has been successfully migrated from npm/bun to pnpm due to stability issues with bun. pnpm is a fast, disk space efficient package manager that provides reliable dependency management.
+This project has been successfully migrated from npm/bun to pnpm due to stability issues with bun. pnpm is a fast, disk space efficient package manager that provides reliable dependency management. The project has also been fully migrated from JavaScript to **TypeScript** for better type safety, IDE support, and scalability.
 
 **System Configuration:**
 - CPU: 14 cores / 20 logical processors (threads)
 - RAM: 32GB
 - GPU: NVIDIA T600 Laptop GPU (4GB VRAM)
-- Optimized Workers: 10 (50% of threads for best balance) (QA team can adjust this to 75% but will get heated laptop)
+- Optimized Workers: 15 (75% of threads for best balance)
 - Disk Space: 100GB+ (for browsers and dependencies)
-- Node.js: v20.17.0 (LTS)
+- Node.js: v22.18.0 (LTS)
 
 ** Recommended for QA team to use 75% of threads (15 workers) for faster test execution** // do not overclock BIOS CPU pinnings.
 ** Leverage the power of your machine! including your GPU for faster test execution!!**
@@ -24,7 +24,7 @@ pnpm install
 # Install browsers
 pnpm install:browsers
 
-# Run all tests (uses 12 workers)
+# Run all tests (uses ~15 workers)
 pnpm test
 
 # View reports
@@ -38,27 +38,47 @@ pnpm allure:open         # Open Allure report
 ### What Changed
 
 1. **Package Manager**: npm/bun → pnpm  (bun is still buggy with playwright but it is 200% faster than pnpm)
-2. **Scripts**: Updated all scripts to use `pnpm exec` instead of `npx`
-3. **Lock File**: `package-lock.json` → `pnpm-lock.yaml`
-4. **Worker Configuration**: Dynamic auto-scaling (uses ~50% of CPU cores, ~10 workers on 20-thread system)
-5. **Performance**: Efficient disk usage with content-addressable storage
-6. **Scalability**: Offload test execution to VDI without performance degradation (RedhatOS)
+2. **Language**: JavaScript → TypeScript (strict mode, full type safety)
+3. **Scripts**: Updated all scripts to use `pnpm exec` instead of `npx`
+4. **Lock File**: `package-lock.json` → `pnpm-lock.yaml`
+5. **Worker Configuration**: Dynamic auto-scaling (uses ~75% of CPU cores, ~15 workers on 20-thread system, capped at 20)
+6. **Performance**: Efficient disk usage with content-addressable storage
+7. **Scalability**: Offload test execution to VDI without performance degradation (RedhatOS)
+8. **Type Definitions**: Custom interfaces in `types/` directory for CommonActions and Page Objects
 
 ### Performance Improvements
 
 - **Package Installation**: Efficient with content-addressable storage
 - **Disk Usage**: Significantly reduced through hard-linking
-- **Parallel Testing**: 5x more workers (2 → 10) for faster test suite execution
+- **Parallel Testing**: 5x more workers (2 → 15) for faster test suite execution
 - **Stability**: More reliable than bun for Playwright testing
+- **Type Safety**: TypeScript catches errors at compile time before tests run
 
 ### What Stayed the Same
 
-- All Playwright test code (no changes needed)
 - Test file structure and organization
-- Configuration files (playwright.config.ts)
+- Configuration files ([`playwright.config.ts`](playwright.config.ts))
 - Allure reporting integration
 - Browser compatibility
 - CI/CD workflows (just swap npm for pnpm commands)
+
+## TypeScript Setup
+
+### Key Features
+- **Strict Mode**: Enabled with `noImplicitAny`, `strictNullChecks`, `noUncheckedIndexedAccess`
+- **Path Aliases**: `@pages/*`, `@utils/*`, `@types/*`, `@tests/*` for clean imports
+- **Type Definitions**: Custom interfaces in [`types/`](types/) directory
+- **Type Checking Scripts**: `pnpm typecheck` and `pnpm typecheck:watch`
+
+### Type Checking
+
+```bash
+# One-time type check
+pnpm typecheck
+
+# Watch mode (continuous type checking during development)
+pnpm typecheck:watch
+```
 
 ## Important: npx vs pnpm exec
 
@@ -108,7 +128,7 @@ pnpm update
 ### Running Tests
 
 ```bash
-# Run all tests (auto-scaling workers, typically ~10 on 20-thread system)
+# Run all tests (auto-scaling workers, typically ~15 on 20-thread system)
 pnpm test
 
 # Run with visible browser (headed mode)
@@ -120,17 +140,17 @@ pnpm test:debug
 pnpm exec playwright test --debug
 
 # Run specific test file
-pnpm exec playwright test tests/example.spec.js
+pnpm exec playwright test tests/example.spec.ts
 
 # Run multiple files
-pnpm exec playwright test tests/example.spec.js tests/login.spec.js
+pnpm exec playwright test tests/example.spec.ts tests/login.spec.ts
 ```
 
 ### Test Options with pnpm exec
 
 ```bash
 # Headed mode with specific file
-pnpm exec playwright test tests/example.spec.js --headed
+pnpm exec playwright test tests/example.spec.ts --headed
 
 # Control workers (override config)
 pnpm exec playwright test --workers=20     # Maximum parallelism
@@ -147,7 +167,7 @@ pnpm exec playwright test --project=chromium
 pnpm exec playwright test --project=firefox
 
 # Debug with options
-pnpm exec playwright test tests/example.spec.js --debug --headed
+pnpm exec playwright test tests/example.spec.ts --debug --headed
 pnpm exec playwright test --workers=1 --headed --timeout=60000
 
 # Interactive UI mode
@@ -194,20 +214,20 @@ pnpm allure:open
 ### Current Setup
 
 **Dynamic scaling for your 20-thread system:**
-- **Workers**: `Math.min(Math.floor(os.cpus().length * 0.5), 15)`
-- **Result**: 10 workers (50% of 20 threads, capped at 15 max)
-- **Rationale**: Automatically adjusts based on CPU cores, leaves headroom for browser processes
-- **Location**: [`playwright.config.ts`](playwright.config.ts:24)
+- **Workers**: `Math.min(Math.floor(os.cpus().length * 0.75), 20)`
+- **Result**: 15 workers (75% of 20 threads, capped at 20 max)
+- **Rationale**: Automatically adjusts based on CPU cores, provides aggressive parallelization for modern multi-core systems
+- **Location**: [`playwright.config.ts`](playwright.config.ts:22)
 
 ### Configuration Options
 
-```javascript
+```typescript
 // In playwright.config.ts
-workers: Math.min(Math.floor(os.cpus().length * 0.5), 15),  // Current - dynamic (RECOMMENDED for most systems; adjust 0.5 multiplier as needed)
+workers: Math.min(Math.floor(os.cpus().length * 0.75), 20),  // Current - dynamic (RECOMMENDED for most systems; adjust 0.75 multiplier as needed)
 workers: 20,         // Maximum - uses all threads
-workers: 15,         // Aggressive - high parallelism (current cap)
-workers: 10,         // Manual setting (same as dynamic result on your system)
-workers: 6,          // Conservative - more stable
+workers: 15,         // Aggressive - high parallelism (current result on 20-thread system)
+workers: 10,         // Conservative - more stable
+workers: 6,          // Light - minimal resource usage
 workers: 1,          // Sequential - debugging only
 ```
 
@@ -226,16 +246,18 @@ pnpm exec playwright test --workers=6
 
 ### Expected Performance
 
-With auto-scaling (~10 workers) on your system:
+With auto-scaling (~15 workers) on your system:
 - Small test suite (7 tests): ~16-20 seconds
 - Medium test suite (50 tests): ~5-10 seconds
 - Large test suite (300+ tests): ~6-8 minutes (with 20 workers)
 
 **Current Test Suite:**
-- 9 test files with various test scenarios
-- Includes performance tests ([`many.spec.ts`](tests/many.spec.ts:1) with 500 parallel tests)
+- 11 test files with various test scenarios (TypeScript)
+- Performance tests ([`smokeCPU.spec.ts`](tests/smokeCPU.spec.ts:1), [`toastyCPU.spec.ts`](tests/toastyCPU.spec.ts:1))
 - End-to-end workflows ([`create-article.spec.ts`](tests/create-article.spec.ts:1))
 - Assertion examples ([`assertions.spec.ts`](tests/assertions.spec.ts:1))
+- POM pattern tests ([`pomTests.spec.ts`](tests/pomTests.spec.ts:1))
+- Login workflows ([`login.spec.ts`](tests/login.spec.ts:1))
 
 ## Key Differences: pnpm vs npm
 
@@ -253,7 +275,7 @@ With auto-scaling (~10 workers) on your system:
 ### Important Distinctions
 
 **`pnpm test` vs `pnpm exec playwright test`:**
-- `pnpm test` - Runs npm script from [`package.json`](package.json:10) (recommended for all tests)
+- `pnpm test` - Runs npm script from [`package.json`](package.json:6) (recommended for all tests)
 - `pnpm exec playwright test` - Direct Playwright execution (useful for specific files)
 
 **`pnpm exec` vs `npx`:**
@@ -274,7 +296,7 @@ With auto-scaling (~10 workers) on your system:
 ```bash
 # 1. Clone repository
 git clone <repository-url>
-cd LearnPlaywright
+cd playwright-project
 
 # 2. Install dependencies
 pnpm install
@@ -282,10 +304,13 @@ pnpm install
 # 3. Install browsers
 pnpm install:browsers
 
-# 4. Run tests to verify
+# 4. Run type check to verify TypeScript setup
+pnpm typecheck
+
+# 5. Run tests to verify
 pnpm test
 
-# 5. View report
+# 6. View report
 pnpm report
 ```
 
@@ -299,7 +324,7 @@ pnpm test
 pnpm test:headed
 
 # Run specific test
-pnpm exec playwright test tests/example.spec.js --headed
+pnpm exec playwright test tests/example.spec.ts --headed
 
 # Generate and view Allure report
 pnpm allure:gen
@@ -311,16 +336,19 @@ pnpm allure:open
 ```bash
 # 1. Make changes to test files
 
-# 2. Run affected tests
+# 2. Run type check
+pnpm typecheck
+
+# 3. Run affected tests
 pnpm exec playwright test tests/modified-test.spec.ts
 
-# 3. Run with browser to verify
+# 4. Run with browser to verify
 pnpm exec playwright test tests/modified-test.spec.ts --headed
 
-# 4. Run full suite before commit
+# 5. Run full suite before commit
 pnpm test
 
-# 5. Generate reports
+# 6. Generate reports
 pnpm allure:gen
 ```
 
@@ -410,12 +438,21 @@ pnpm install
 
 **4. Tests running too fast/slow**
 ```bash
-# Adjust workers in playwright.config.js
+# Adjust workers in playwright.config.ts
 # Or override temporarily:
 pnpm exec playwright test --workers=8
 ```
 
-**5. Can't stop Allure server**
+**5. TypeScript errors**
+```bash
+# Run type check to see all errors
+pnpm typecheck
+
+# Watch mode for continuous feedback
+pnpm typecheck:watch
+```
+
+**6. Can't stop Allure server**
 ```bash
 # Kill all Allure processes
 pkill -f "allure"
@@ -473,6 +510,37 @@ pnpm allure:gen
 # Navigate to: allure-report/index.html
 ```
 
+## Project Structure
+
+```
+├── pages/           # Page Object Model classes (TypeScript)
+│   ├── CheckboxesPage.ts
+│   ├── LoginPage.ts
+│   ├── PomManager.ts
+│   └── SecurePage.ts
+├── tests/           # Test specification files (TypeScript)
+│   ├── assertions.spec.ts
+│   ├── codegen.spec.ts
+│   ├── create-article.spec.ts
+│   ├── demo-improved.spec.ts
+│   ├── example.spec.ts
+│   ├── hooksAndPage.spec.ts
+│   ├── login.spec.ts
+│   ├── pomTests.spec.ts
+│   ├── selectors.spec.ts
+│   ├── smokeCPU.spec.ts
+│   └── toastyCPU.spec.ts
+├── types/           # TypeScript type definitions
+│   ├── actions.types.ts
+│   ├── index.ts
+│   └── pages.types.ts
+├── utils/           # Helper utilities
+│   └── CommonActions.ts
+├── playwright.config.ts   # Optimized test configuration
+├── tsconfig.json          # TypeScript configuration
+└── package.json           # Dependencies and scripts
+```
+
 ## Benefits of Using pnpm
 
 ### Performance
@@ -491,7 +559,7 @@ pnpm allure:gen
 
 ### System Utilization
 
-With auto-scaling workers (~10 on your 20-thread system):
+With auto-scaling workers (~15 on your 20-thread system):
 - Efficient parallel test execution
 - Dynamic resource adjustment based on system load
 - Room for browser processes and GPU acceleration
@@ -503,6 +571,7 @@ With auto-scaling workers (~10 on your 20-thread system):
 - [pnpm Documentation](https://pnpm.io/)
 - [pnpm vs npm Performance](https://pnpm.io/benchmarks)
 - [Playwright Documentation](https://playwright.dev/)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
 - [Allure Reporting](https://docs.qameta.io/allure/)
 - Main project README: [`README.md`](README.md)
 
