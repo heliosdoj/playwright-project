@@ -16,49 +16,14 @@
     "report": "playwright show-report",
     "allure:gen": "allure generate allure-results --clean -o allure-report",
     "allure:open": "allure open allure-report",
-    "lint": "eslint . --ext .ts,.js",
-    "lint:fix": "eslint . --ext .ts,.js --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "lint:all": "eslint . --ext .ts,.js && prettier --check .",
     "typecheck": "tsc --noEmit",
-    "typecheck:watch": "tsc --noEmit --watch",
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "prepare": "husky",
-    "generate:docs": "typedoc --options typedoc.json",
-    "script:run": "bash -c 'node scripts/$1.js' --",
-    "script:ts": "bash -c 'npx ts-node scripts/$1.ts' --",
-    "script:build": "bash -c 'pnpm build && node dist/scripts/$1.js' --",
-    "script:list": "ls scripts/*.{js,ts} | sed 's/^scripts\\///' | sed 's/\\..*$//'"
-  },
-  "lint-staged": {
-    "*.{ts,js}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md,yml,yaml,css,html}": [
-      "prettier --write"
-    ]
+    "typecheck:watch": "tsc --noEmit --watch"
   },
   "devDependencies": {
-    "@playwright/test": "^1.57.0",
-    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@playwright/test": "^1.58.2",
     "@types/node": "^24.10.1",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
     "allure-commandline": "^2.34.1",
     "allure-playwright": "^3.4.2",
-    "concurrently": "^8.2.2",
-    "eslint": "^9.9.0",
-    "husky": "^9.1.4",
-    "lint-staged": "^15.2.7",
-    "prettier": "^3.3.3",
-    "rimraf": "^6.0.1",
-    "source-map-support": "^0.5.21",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "typedoc": "^0.26.5",
     "typescript": "^5.6.2"
   }
 }

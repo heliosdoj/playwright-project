@@ -25,7 +25,6 @@ export interface IBasePage {
    * Typed as 'any' to avoid circular import issues with CommonActions class.
    * @see CommonActions in utils/CommonActions.ts for actual methods available
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly actions: any;
 }
 
