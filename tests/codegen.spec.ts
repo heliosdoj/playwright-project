@@ -25,8 +25,8 @@ test('Codegen generated login test', async ({ page }: { page: Page }) => {
   await expect(page.locator('#flash')).toContainText('You logged into a secure area!');
 
   // Navigate back to login page via link
-  await page.getByRole('link', { name: 'the-internet' }).click();
-
+ // await page.getByRole('link', { name: 'the-internet' }).click();
+  await page.getByRole('link', { name: 'Logout' }).click();
   // Navigate to login page again
-  await page.getByRole('link', { name: 'Form Authentication' }).click();
+  // await page.getByRole('link', { name: 'Form Authentication' }).click();
 });
